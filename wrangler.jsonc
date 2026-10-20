@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mubarak-miles-tour",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    { "binding": "WORKER_SELF_REFERENCE", "service": "mubarak-miles-tour" }
+  ],
+  // Database: Hyperdrive -> Supabase SESSION POOLER (port 5432, user postgres.<project-ref>).
+  // Ganti id dengan ID Hyperdrive produksi Anda saat setup Tahap 7.
+  "hyperdrive": [
+    { "binding": "HYPERDRIVE", "id": "00000000000000000000000000000000" }
+  ],
+  // Jangan hapus variabel yang diisi di dashboard Cloudflare saat deploy.
+  "keep_vars": true,
+  // Semua env runtime diisi di Cloudflare Dashboard (Variables and Secrets):
+  // SUPABASE_URL, SUPABASE_ANON_KEY, ADMIN_EMAILS, BOOKING_WHATSAPP_NUMBER, SITE_URL,
+  // TURNSTILE_SITE_KEY, TURNSTILE_SECRET_KEY. Jangan tambahkan "vars" berisi rahasia di file ini.
+  "observability": { "enabled": true }
+}

@@ -1,0 +1,11 @@
+# Runtime Worker lokal (next dev / preview). Produksi: `wrangler secret put` / dashboard.
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+# daftar email admin, dipisah koma
+ADMIN_EMAILS=
+# nomor WA PIC pengelola format 62… (contoh: 6285847879784)
+BOOKING_WHATSAPP_NUMBER=
+SITE_URL=
+# Lokal pakai test key Cloudflare Turnstile (lihat README)
+TURNSTILE_SITE_KEY=
+TURNSTILE_SECRET_KEY=

@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+/*
+ * Design token Mubarak Miles Tour (AGENTS.md §5).
+ * Disesuaikan dari identitas visual brosur (Hijau Emerald + Sage + Emas Krem)
+ * dan telah diverifikasi memenuhi rasio kontras WCAG AA:
+ *  - emerald-deep (#0B3528) & emerald-mid (#124E3B) dengan teks cream (#F6EFE2) -> >11:1
+ *  - sage-card (#526B4C) dengan teks cream (#F6EFE2) -> 4.8:1
+ *  - gold (#E8D29B) dengan teks ink (#102820) untuk tombol utama di latar gelap -> 10.6:1
+ *  - gold-dark (#876316) untuk teks aksen/eyebrow di latar cream/sand -> 4.8:1
+ *  - muted (#4E635B) untuk teks sekunder di latar cream/sand -> 5.1:1
+ */
+@theme {
+  --color-emerald-deep: #0b3528;
+  --color-emerald-mid: #124e3b;
+  --color-sage-card: #526b4c;
+  --color-cream: #f6efe2;
+  --color-sand: #eae0ce;
+  --color-gold: #e8d29b;
+  --color-gold-hover: #dec17a;
+  --color-gold-dark: #876316;
+  --color-ink: #102820;
+  --color-muted: #4e635b;
+  --color-line: #d2c5b0;
+  --color-field: #6e8279;
+  --color-promo-red: #b42318;
+  --color-danger: #a12c1f;
+  --color-success: #1f6b45;
+
+  --font-serif: var(--font-cormorant), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-jakarta), system-ui, -apple-system, sans-serif;
+
+  --container-site: 75rem; /* ±1200px */
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-gold-dark);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

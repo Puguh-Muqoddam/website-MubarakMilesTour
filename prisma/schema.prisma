@@ -1,0 +1,212 @@
+// Skema database Mubarak Miles Tour (Ziarah Wali Songo B2B Rombongan).
+// Uang: integer rupiah. Tanggal keberangkatan: kolom DATE (dimaknai sebagai tanggal WIB).
+
+generator client {
+  provider      = "prisma-client"
+  output        = "../src/generated/prisma"
+  // Cloudflare Worker: batas ukuran bundle -> query compiler varian "small".
+  compilerBuild = "small"
+  runtime       = "cloudflare"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Jenis komunitas / lembaga rombongan (B2B).
+enum OrganizationType {
+  MAJELIS_TAKLIM
+  KOMUNITAS
+  PESANTREN
+  YAYASAN
+  SEKOLAH
+  LAINNYA
+}
+
+/// Asal wilayah rombongan (untuk analisis pasar & koordinasi titik jemput).
+enum OriginRegion {
+  SURABAYA_RAYA
+  JAWA_TIMUR_LAINNYA
+  LUAR_JAWA_TIMUR
+}
+
+/// Status tahapan pelayanan rombongan sesuai PPBI §6.2 (Deal s.d. Berangkat).
+enum BookingStatus {
+  MENUNGGU_PENAWARAN
+  MOU_DITANDATANGANI
+  DP_DITERIMA
+  LUNAS
+  SELESAI
+  BATAL
+}
+
+/// Jenis pencatatan transaksi pembayaran termin rombongan.
+enum PaymentType {
+  DP_50
+  PELUNASAN
+  REFUND
+}
+
+/// Paket wisata religi. Harga selalu dibaca dari sini, tidak pernah dari input klien.
+model Package {
+  id                String   @id @default(cuid())
+  slug              String   @unique @db.VarChar(60)
+  name              String   @db.VarChar(120)
+  description       String?  @db.VarChar(1200)
+  durationDays      Int      @default(3)
+  durationNights    Int      @default(2)
+  totalDestinations Int      @default(12)
+  priceNormalPerPax Int // harga coret / normal per jamaah (rupiah)
+  pricePromoPerPax  Int // harga aktif All-In per jamaah (rupiah)
+  minParticipants   Int // min peserta per rombongan bus
+  maxParticipants   Int // maks peserta per rombongan bus
+  highlights        String[]
+  facilities        String[]
+  hotels            String[]
+  isCustomAllowed   Boolean  @default(false)
+  isActive          Boolean  @default(true)
+  sortOrder         Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  departureSlots DepartureSlot[]
+  bookings       GroupBooking[]
+}
+
+/// Slot jadwal keberangkatan rombongan (misal: 1-3 Februari 2027).
+/// Dikunci dengan SELECT ... FOR UPDATE saat permintaan penawaran rombongan dibuat.
+model DepartureSlot {
+  id                   String   @id @default(cuid())
+  packageId            String
+  departDate           DateTime @db.Date
+  returnDate           DateTime @db.Date
+  label                String   @db.VarChar(100)
+  maxRombonganQuota    Int      @default(2) // jumlah maksimal rombongan bus pada tanggal ini
+  bookedRombonganCount Int      @default(0) // jumlah rombongan aktif (selain BATAL)
+  seatCapacityPerBus   Int      @default(40) // kapasitas ideal kursi per bus (PPBI §6.5)
+  isClosed             Boolean  @default(false)
+  closedReason         String?  @db.VarChar(200)
+  isActive             Boolean  @default(true)
+  sortOrder            Int      @default(0)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  package  Package        @relation(fields: [packageId], references: [id], onDelete: Restrict)
+  bookings GroupBooking[]
+
+  @@unique([packageId, departDate])
+  @@index([departDate, isActive])
+}
+
+/// Permintaan penawaran & booking jadwal rombongan B2B oleh PIC komunitas/majelis.
+model GroupBooking {
+  id                  String           @id @default(cuid())
+  code                String           @unique @db.VarChar(8) // acak dari CSPRNG
+  packageId           String
+  departureSlotId     String? // null bila memilih tanggal custom komunitas
+  requestedDepartDate DateTime         @db.Date
+  participantCount    Int
+  elderlyCount        Int              @default(0)
+  wheelchairCount     Int              @default(0)
+  unitPrice           Int // snapshot harga per jamaah saat pengajuan (rupiah)
+  estimatedTotalPrice Int // dihitung server: unitPrice * participantCount (rupiah)
+  estimatedDpAmount   Int // dihitung server: DP 50% dibulatkan ke ribuan (rupiah)
+  picName             String           @db.VarChar(100)
+  whatsapp            String           @db.VarChar(16) // format 62…
+  email               String?          @db.VarChar(254)
+  organizationName    String           @db.VarChar(150) // nama majelis taklim / komunitas / instansi
+  organizationType    OrganizationType
+  originRegion        OriginRegion
+  originCity          String           @db.VarChar(100)
+  notes               String?          @db.VarChar(600)
+  status              BookingStatus    @default(MENUNGGU_PENAWARAN)
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+
+  package       Package            @relation(fields: [packageId], references: [id], onDelete: Restrict)
+  departureSlot DepartureSlot?     @relation(fields: [departureSlotId], references: [id], onDelete: Restrict)
+  statusLogs    BookingStatusLog[]
+  paymentLogs   PaymentLog[]
+
+  @@index([departureSlotId, status])
+  @@index([requestedDepartDate])
+  @@index([organizationType])
+  @@index([originRegion])
+  @@index([status, createdAt])
+}
+
+/// Jejak audit perubahan status rombongan oleh admin.
+model BookingStatusLog {
+  id             String         @id @default(cuid())
+  bookingId      String
+  fromStatus     BookingStatus?
+  toStatus       BookingStatus
+  note           String?        @db.VarChar(300)
+  changedByEmail String         @db.VarChar(254)
+  createdAt      DateTime       @default(now())
+
+  booking GroupBooking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId, createdAt])
+}
+
+/// Jejak pencatatan pembayaran termin (DP 50% H-30, Pelunasan H-14, atau Refund).
+model PaymentLog {
+  id              String      @id @default(cuid())
+  bookingId       String
+  paymentType     PaymentType
+  amount          Int // rupiah (> 0)
+  note            String?     @db.VarChar(300)
+  recordedByEmail String      @db.VarChar(254)
+  paidAt          DateTime    @default(now())
+
+  booking GroupBooking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId, paidAt])
+}
+
+/// Titik destinasi rute ziarah Wali Songo, wisata religi, & hotel mitra untuk peta interaktif.
+model Destination {
+  id          String   @id @default(cuid())
+  slug        String   @unique @db.VarChar(80)
+  name        String   @db.VarChar(120)
+  city        String   @db.VarChar(80)
+  category    String   @db.VarChar(30) // "MAKAM" | "MASJID" | "WISATA" | "HOTEL"
+  description String   @db.VarChar(600)
+  lat         Float
+  lng         Float
+  imageUrl    String?  @db.VarChar(500)
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+/// Pertanyaan yang sering diajukan oleh pengurus Majelis Taklim / PIC rombongan.
+model Faq {
+  id        String   @id @default(cuid())
+  question  String   @db.VarChar(300)
+  answer    String   @db.VarChar(2000)
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Tanggal tutup operasional penuh.
+model ClosedDate {
+  id        String   @id @default(cuid())
+  date      DateTime @unique @db.Date
+  reason    String?  @db.VarChar(200)
+  createdAt DateTime @default(now())
+}
+
+/// Penghitung rate limit fixed-window per hash IP (bukan IP mentah).
+model RateLimit {
+  key         String   @db.VarChar(100)
+  windowStart DateTime
+  count       Int      @default(0)
+
+  @@id([key, windowStart])
+  @@index([windowStart])
+}
