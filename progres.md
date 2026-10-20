@@ -12,13 +12,13 @@ Seluruh tahapan pembangunan Website Mubarak Miles Tour (Tahap 1 s.d. Tahap 7) te
 - [x] 2026-10-20 — **Tahap 4**: Aset brosur `public/images/brosur/{1,2}.png`, komponen section publik `src/components/sections/{Navbar,Hero,About,WhyUs,Packages,MapAndHotels,ProcessFlow,Faq,Footer}.tsx`, dan perakitan halaman utama `src/app/(public)/page.tsx`.
 - [x] 2026-10-20 — **Tahap 5**: Modul anti-bot & rate limit `src/server/security/{turnstile,rate-limit}.ts` + `src/server/db/rate-limit.ts`, transaksi penguncian slot `src/server/db/bookings.ts` (`SELECT ... FOR UPDATE`), Server Action `src/app/actions/booking.ts`, komponen `src/components/booking/{Turnstile,BookingForm}.tsx` & `BookingSection.tsx`, halaman `/pesanan/terkirim`, serta unit test konkurensi `src/server/db/bookings.test.ts`.
 - [x] 2026-10-20 — **Tahap 6**: Modul autentikasi & otorisasi dua lapis `src/server/auth/{authorize,supabase,admin}.ts`, state machine `src/server/booking/status.ts`, query & mutasi admin `src/server/db/admin.ts`, Server Actions `src/app/actions/admin.ts`, halaman `/admin/login`, dashboard `/admin`, halaman cetak lampiran MOU & invoice `/admin/pesanan/[id]/cetak`, serta unit test `src/server/auth/authorize.test.ts`.
-- [x] 2026-10-20 — **Tahap 7**: Structured data JSON-LD (`TravelAgency` & `TouristTrip`) di `src/lib/seo.ts` + unit test XSS escaping `src/lib/seo.test.ts`, `src/app/sitemap.ts`, `src/app/robots.ts`, halaman `src/app/not-found.tsx` & `src/app/error.tsx`, panduan produksi `DEPLOY.md`, serta verifikasi penuh (`typecheck`, `lint`, `test`, & `build`).
+- [x] 2026-10-20 — **Tahap 7**: Structured data JSON-LD (`TravelAgency` & `TouristTrip`) di `src/lib/seo.ts` + unit test XSS escaping `src/lib/seo.test.ts`, `src/app/sitemap.ts`, `src/app/robots.ts`, halaman `src/app/not-found.tsx` & `src/app/error.tsx`, panduan produksi `DEPLOY.md`, push ke GitHub (`website-MubarakMilesTour`), koneksi Supabase (`guzniqzpdpqgwyropdlf`) + Cloudflare Hyperdrive (`2f06eb9be4c54c71919775983c353b68`), serta deploy live ke `https://mubarak-miles-tour.puguhmuqoddam151.workers.dev`.
 
 ## Sedang dikerjakan
-- Tidak ada (seluruh 7 tahap implementasi telah selesai).
+- Tidak ada (seluruh 7 tahap implementasi & deployment produksi telah selesai).
 
 ## Berikutnya
-- Menunggu konfigurasi kredensial Supabase & Cloudflare Hyperdrive produksi dari pengelola sesuai panduan di `DEPLOY.md`.
+- Opsional: Menghubungkan Custom Domain di Cloudflare Dashboard jika sudah memiliki domain khusus.
 
 ## Keputusan penting
 - 2026-10-20 — Nama resmi ditetapkan **Mubarak Miles Tour** dengan model konversi 100% **B2B Rombongan / Komunitas** (harga Rp1.399.000/jamaah adalah patokan per kepala dalam kontrak rombongan ±40 jamaah/bus).
