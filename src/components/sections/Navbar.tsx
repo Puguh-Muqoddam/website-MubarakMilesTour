@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Compass } from "lucide-react";
 import { NAV_ITEMS, SITE } from "@/lib/site";
 import { buttonClasses } from "@/components/ui/Button";
 
@@ -40,12 +40,14 @@ export function Navbar() {
           href="/#beranda"
           className="group flex items-center gap-3 text-cream transition-opacity hover:opacity-95"
         >
-          <span
-            aria-hidden="true"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/40 bg-emerald-mid text-gold shadow-xs transition-transform group-hover:scale-105 sm:h-11 sm:w-11"
-          >
-            <Compass className="h-5 w-5 sm:h-6 sm:w-6" />
-          </span>
+          <Image
+            src="/images/logo.png"
+            alt={`Logo ${SITE.name}`}
+            width={48}
+            height={48}
+            className="h-10 w-10 object-contain drop-shadow-sm transition-transform duration-200 group-hover:scale-105 sm:h-12 sm:w-12"
+            priority
+          />
           <div className="flex flex-col">
             <span className="font-sans text-base leading-tight font-extrabold tracking-tight text-cream sm:text-lg">
               {SITE.name}

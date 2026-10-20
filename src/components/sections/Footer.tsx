@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Compass, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { NAV_ITEMS, SITE } from "@/lib/site";
@@ -15,13 +16,14 @@ export function Footer({ whatsapp }: { whatsapp: string }) {
       <Container className="grid gap-12 py-16 md:grid-cols-[1.4fr_0.8fr_1fr]">
         {/* Kolom 1: Identitas & Kontak */}
         <div>
-          <div className="flex items-center gap-3">
-            <span
-              aria-hidden="true"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/40 bg-emerald-mid text-gold"
-            >
-              <Compass className="h-6 w-6" />
-            </span>
+          <div className="flex items-center gap-3.5">
+            <Image
+              src="/images/logo.png"
+              alt={`Logo ${SITE.name}`}
+              width={56}
+              height={56}
+              className="h-12 w-12 object-contain drop-shadow-sm sm:h-14 sm:w-14"
+            />
             <div>
               <p className="font-sans text-2xl font-extrabold tracking-tight text-cream">
                 {SITE.name}

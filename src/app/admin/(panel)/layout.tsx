@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { Compass } from "lucide-react";
 import { logout } from "@/app/actions/admin";
 import { SITE } from "@/lib/site";
 import { requireAdminPage } from "@/server/auth/admin";
@@ -19,12 +19,14 @@ export default async function AdminPanelLayout({
       <header className="border-b border-cream/15 bg-emerald-deep text-cream print:hidden">
         <div className="mx-auto flex max-w-site flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
-            <span
-              aria-hidden="true"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/40 bg-emerald-mid text-gold"
-            >
-              <Compass className="h-5 w-5" />
-            </span>
+            <Image
+              src="/images/logo.png"
+              alt={`Logo ${SITE.name}`}
+              width={40}
+              height={40}
+              className="h-10 w-10 object-contain drop-shadow-sm"
+              priority
+            />
             <div>
               <Link
                 href="/admin"

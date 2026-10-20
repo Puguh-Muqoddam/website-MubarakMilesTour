@@ -32,6 +32,10 @@ export async function generateMetadata(): Promise<Metadata> {
     title: TITLE,
     description: DESCRIPTION,
     alternates: { canonical: "/" },
+    icons: {
+      icon: "/images/logo.png",
+      apple: "/images/logo.png",
+    },
     openGraph: {
       type: "website",
       locale: "id_ID",
@@ -39,11 +43,20 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: SITE.name,
       title: TITLE,
       description: DESCRIPTION,
+      images: [
+        {
+          url: "/images/logo.png",
+          width: 800,
+          height: 800,
+          alt: `Logo ${SITE.name}`,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: TITLE,
       description: DESCRIPTION,
+      images: ["/images/logo.png"],
     },
   };
 }

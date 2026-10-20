@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatRupiah, SITE } from "@/lib/site";
@@ -68,18 +69,27 @@ export default async function PrintContractInvoicePage({
       >
         {/* Kop Surat Resmi Mubarak Miles Tour */}
         <header className="flex flex-wrap items-start justify-between gap-4 border-b-2 border-emerald-deep pb-5">
-          <div>
-            <p className="text-xs font-extrabold tracking-widest text-gold-dark uppercase">
-              Dokumen Resmi Penawaran, Lampiran MOU, &amp; Tagihan Termin B2B
-            </p>
-            <h1 className="mt-1 font-serif text-3xl font-bold text-emerald-deep">
-              {SITE.name}
-            </h1>
-            <p className="text-xs font-medium text-muted">{SITE.tagline}</p>
-            <p className="mt-1 text-xs text-muted">
-              {SITE.city} • WhatsApp Konsultan ({SITE.contact.picName}):{" "}
-              {SITE.contact.whatsappDisplay} • Email: {SITE.contact.email}
-            </p>
+          <div className="flex items-start gap-4">
+            <Image
+              src="/images/logo.png"
+              alt={`Logo ${SITE.name}`}
+              width={64}
+              height={64}
+              className="h-16 w-16 object-contain"
+            />
+            <div>
+              <p className="text-xs font-extrabold tracking-widest text-gold-dark uppercase">
+                Dokumen Resmi Penawaran, Lampiran MOU, &amp; Tagihan Termin B2B
+              </p>
+              <h1 className="mt-1 font-serif text-3xl font-bold text-emerald-deep">
+                {SITE.name}
+              </h1>
+              <p className="text-xs font-medium text-muted">{SITE.tagline}</p>
+              <p className="mt-1 text-xs text-muted">
+                {SITE.city} • WhatsApp Konsultan ({SITE.contact.picName}):{" "}
+                {SITE.contact.whatsappDisplay} • Email: {SITE.contact.email}
+              </p>
+            </div>
           </div>
           <div className="text-right">
             <span className="inline-block rounded-full border border-emerald-deep bg-emerald-deep px-3.5 py-1 text-xs font-extrabold tracking-wider text-gold uppercase">
