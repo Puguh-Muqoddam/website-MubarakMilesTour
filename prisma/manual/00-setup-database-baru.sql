@@ -1,6 +1,7 @@
 -- =====================================================================
 -- SETUP LENGKAP Database Supabase BARU — Mubarak Miles Tour (Ziarah Wali Songo B2B)
 -- Cara pakai: Supabase -> SQL Editor -> New query -> tempel SELURUH isi file -> Run.
+-- Skrip ini IDEMPOTEN: aman dijalankan ulang tanpa error "already exists".
 -- Mencakup: DDL tabel, CHECK constraints, Zero-Trust RLS + REVOKE ALL, dan Seed Data awal.
 -- =====================================================================
 
@@ -19,14 +20,29 @@ CREATE TABLE IF NOT EXISTS "_prisma_migrations" (
 
 CREATE SCHEMA IF NOT EXISTS "public";
 
--- ===== Enums =====
-CREATE TYPE "OrganizationType" AS ENUM ('MAJELIS_TAKLIM', 'KOMUNITAS', 'PESANTREN', 'YAYASAN', 'SEKOLAH', 'LAINNYA');
-CREATE TYPE "OriginRegion" AS ENUM ('SURABAYA_RAYA', 'JAWA_TIMUR_LAINNYA', 'LUAR_JAWA_TIMUR');
-CREATE TYPE "BookingStatus" AS ENUM ('MENUNGGU_PENAWARAN', 'MOU_DITANDATANGANI', 'DP_DITERIMA', 'LUNAS', 'SELESAI', 'BATAL');
-CREATE TYPE "PaymentType" AS ENUM ('DP_50', 'PELUNASAN', 'REFUND');
+-- ===== Enums (Idempoten) =====
+DO $$ BEGIN
+    CREATE TYPE "OrganizationType" AS ENUM ('MAJELIS_TAKLIM', 'KOMUNITAS', 'PESANTREN', 'YAYASAN', 'SEKOLAH', 'LAINNYA');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+DO $$ BEGIN
+    CREATE TYPE "OriginRegion" AS ENUM ('SURABAYA_RAYA', 'JAWA_TIMUR_LAINNYA', 'LUAR_JAWA_TIMUR');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+DO $$ BEGIN
+    CREATE TYPE "BookingStatus" AS ENUM ('MENUNGGU_PENAWARAN', 'MOU_DITANDATANGANI', 'DP_DITERIMA', 'LUNAS', 'SELESAI', 'BATAL');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+DO $$ BEGIN
+    CREATE TYPE "PaymentType" AS ENUM ('DP_50', 'PELUNASAN', 'REFUND');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- ===== Tabel Package =====
-CREATE TABLE "Package" (
+CREATE TABLE IF NOT EXISTS "Package" (
     "id" TEXT NOT NULL,
     "slug" VARCHAR(60) NOT NULL,
     "name" VARCHAR(120) NOT NULL,
@@ -51,7 +67,7 @@ CREATE TABLE "Package" (
 );
 
 -- ===== Tabel DepartureSlot =====
-CREATE TABLE "DepartureSlot" (
+CREATE TABLE IF NOT EXISTS "DepartureSlot" (
     "id" TEXT NOT NULL,
     "packageId" TEXT NOT NULL,
     "departDate" DATE NOT NULL,
@@ -71,7 +87,7 @@ CREATE TABLE "DepartureSlot" (
 );
 
 -- ===== Tabel GroupBooking =====
-CREATE TABLE "GroupBooking" (
+CREATE TABLE IF NOT EXISTS "GroupBooking" (
     "id" TEXT NOT NULL,
     "code" VARCHAR(8) NOT NULL,
     "packageId" TEXT NOT NULL,
@@ -99,7 +115,7 @@ CREATE TABLE "GroupBooking" (
 );
 
 -- ===== Tabel BookingStatusLog =====
-CREATE TABLE "BookingStatusLog" (
+CREATE TABLE IF NOT EXISTS "BookingStatusLog" (
     "id" TEXT NOT NULL,
     "bookingId" TEXT NOT NULL,
     "fromStatus" "BookingStatus",
@@ -112,7 +128,7 @@ CREATE TABLE "BookingStatusLog" (
 );
 
 -- ===== Tabel PaymentLog =====
-CREATE TABLE "PaymentLog" (
+CREATE TABLE IF NOT EXISTS "PaymentLog" (
     "id" TEXT NOT NULL,
     "bookingId" TEXT NOT NULL,
     "paymentType" "PaymentType" NOT NULL,
@@ -125,7 +141,7 @@ CREATE TABLE "PaymentLog" (
 );
 
 -- ===== Tabel Destination =====
-CREATE TABLE "Destination" (
+CREATE TABLE IF NOT EXISTS "Destination" (
     "id" TEXT NOT NULL,
     "slug" VARCHAR(80) NOT NULL,
     "name" VARCHAR(120) NOT NULL,
@@ -144,7 +160,7 @@ CREATE TABLE "Destination" (
 );
 
 -- ===== Tabel Faq =====
-CREATE TABLE "Faq" (
+CREATE TABLE IF NOT EXISTS "Faq" (
     "id" TEXT NOT NULL,
     "question" VARCHAR(300) NOT NULL,
     "answer" VARCHAR(2000) NOT NULL,
@@ -157,7 +173,7 @@ CREATE TABLE "Faq" (
 );
 
 -- ===== Tabel ClosedDate =====
-CREATE TABLE "ClosedDate" (
+CREATE TABLE IF NOT EXISTS "ClosedDate" (
     "id" TEXT NOT NULL,
     "date" DATE NOT NULL,
     "reason" VARCHAR(200),
@@ -167,7 +183,7 @@ CREATE TABLE "ClosedDate" (
 );
 
 -- ===== Tabel RateLimit =====
-CREATE TABLE "RateLimit" (
+CREATE TABLE IF NOT EXISTS "RateLimit" (
     "key" VARCHAR(100) NOT NULL,
     "windowStart" TIMESTAMP(3) NOT NULL,
     "count" INTEGER NOT NULL DEFAULT 0,
@@ -176,39 +192,59 @@ CREATE TABLE "RateLimit" (
 );
 
 -- ===== Indexes & Unique Constraints =====
-CREATE UNIQUE INDEX "Package_slug_key" ON "Package"("slug");
-CREATE UNIQUE INDEX "DepartureSlot_packageId_departDate_key" ON "DepartureSlot"("packageId", "departDate");
-CREATE INDEX "DepartureSlot_departDate_isActive_idx" ON "DepartureSlot"("departDate", "isActive");
-CREATE UNIQUE INDEX "GroupBooking_code_key" ON "GroupBooking"("code");
-CREATE INDEX "GroupBooking_departureSlotId_status_idx" ON "GroupBooking"("departureSlotId", "status");
-CREATE INDEX "GroupBooking_requestedDepartDate_idx" ON "GroupBooking"("requestedDepartDate");
-CREATE INDEX "GroupBooking_organizationType_idx" ON "GroupBooking"("organizationType");
-CREATE INDEX "GroupBooking_originRegion_idx" ON "GroupBooking"("originRegion");
-CREATE INDEX "GroupBooking_status_createdAt_idx" ON "GroupBooking"("status", "createdAt");
-CREATE INDEX "BookingStatusLog_bookingId_createdAt_idx" ON "BookingStatusLog"("bookingId", "createdAt");
-CREATE INDEX "PaymentLog_bookingId_paidAt_idx" ON "PaymentLog"("bookingId", "paidAt");
-CREATE UNIQUE INDEX "Destination_slug_key" ON "Destination"("slug");
-CREATE UNIQUE INDEX "ClosedDate_date_key" ON "ClosedDate"("date");
-CREATE INDEX "RateLimit_windowStart_idx" ON "RateLimit"("windowStart");
+CREATE UNIQUE INDEX IF NOT EXISTS "Package_slug_key" ON "Package"("slug");
+CREATE UNIQUE INDEX IF NOT EXISTS "DepartureSlot_packageId_departDate_key" ON "DepartureSlot"("packageId", "departDate");
+CREATE INDEX IF NOT EXISTS "DepartureSlot_departDate_isActive_idx" ON "DepartureSlot"("departDate", "isActive");
+CREATE UNIQUE INDEX IF NOT EXISTS "GroupBooking_code_key" ON "GroupBooking"("code");
+CREATE INDEX IF NOT EXISTS "GroupBooking_departureSlotId_status_idx" ON "GroupBooking"("departureSlotId", "status");
+CREATE INDEX IF NOT EXISTS "GroupBooking_requestedDepartDate_idx" ON "GroupBooking"("requestedDepartDate");
+CREATE INDEX IF NOT EXISTS "GroupBooking_organizationType_idx" ON "GroupBooking"("organizationType");
+CREATE INDEX IF NOT EXISTS "GroupBooking_originRegion_idx" ON "GroupBooking"("originRegion");
+CREATE INDEX IF NOT EXISTS "GroupBooking_status_createdAt_idx" ON "GroupBooking"("status", "createdAt");
+CREATE INDEX IF NOT EXISTS "BookingStatusLog_bookingId_createdAt_idx" ON "BookingStatusLog"("bookingId", "createdAt");
+CREATE INDEX IF NOT EXISTS "PaymentLog_bookingId_paidAt_idx" ON "PaymentLog"("bookingId", "paidAt");
+CREATE UNIQUE INDEX IF NOT EXISTS "Destination_slug_key" ON "Destination"("slug");
+CREATE UNIQUE INDEX IF NOT EXISTS "ClosedDate_date_key" ON "ClosedDate"("date");
+CREATE INDEX IF NOT EXISTS "RateLimit_windowStart_idx" ON "RateLimit"("windowStart");
 
--- ===== Foreign Keys =====
+-- ===== Foreign Keys (Idempoten) =====
+ALTER TABLE "DepartureSlot" DROP CONSTRAINT IF EXISTS "DepartureSlot_packageId_fkey";
 ALTER TABLE "DepartureSlot" ADD CONSTRAINT "DepartureSlot_packageId_fkey" FOREIGN KEY ("packageId") REFERENCES "Package"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+ALTER TABLE "GroupBooking" DROP CONSTRAINT IF EXISTS "GroupBooking_packageId_fkey";
 ALTER TABLE "GroupBooking" ADD CONSTRAINT "GroupBooking_packageId_fkey" FOREIGN KEY ("packageId") REFERENCES "Package"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+ALTER TABLE "GroupBooking" DROP CONSTRAINT IF EXISTS "GroupBooking_departureSlotId_fkey";
 ALTER TABLE "GroupBooking" ADD CONSTRAINT "GroupBooking_departureSlotId_fkey" FOREIGN KEY ("departureSlotId") REFERENCES "DepartureSlot"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+ALTER TABLE "BookingStatusLog" DROP CONSTRAINT IF EXISTS "BookingStatusLog_bookingId_fkey";
 ALTER TABLE "BookingStatusLog" ADD CONSTRAINT "BookingStatusLog_bookingId_fkey" FOREIGN KEY ("bookingId") REFERENCES "GroupBooking"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "PaymentLog" DROP CONSTRAINT IF EXISTS "PaymentLog_bookingId_fkey";
 ALTER TABLE "PaymentLog" ADD CONSTRAINT "PaymentLog_bookingId_fkey" FOREIGN KEY ("bookingId") REFERENCES "GroupBooking"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- ===== CHECK Constraints (Integritas Data Bisnis) =====
+ALTER TABLE "Package" DROP CONSTRAINT IF EXISTS "Package_price_check";
 ALTER TABLE "Package" ADD CONSTRAINT "Package_price_check"
   CHECK ("priceNormalPerPax" >= 0 AND "pricePromoPerPax" >= 0 AND "pricePromoPerPax" <= "priceNormalPerPax");
+
+ALTER TABLE "Package" DROP CONSTRAINT IF EXISTS "Package_participants_check";
 ALTER TABLE "Package" ADD CONSTRAINT "Package_participants_check"
   CHECK ("minParticipants" >= 1 AND "maxParticipants" >= "minParticipants");
+
+ALTER TABLE "DepartureSlot" DROP CONSTRAINT IF EXISTS "DepartureSlot_quota_check";
 ALTER TABLE "DepartureSlot" ADD CONSTRAINT "DepartureSlot_quota_check"
   CHECK ("maxRombonganQuota" >= 1 AND "bookedRombonganCount" >= 0 AND "bookedRombonganCount" <= "maxRombonganQuota" AND "seatCapacityPerBus" >= 1 AND "returnDate" >= "departDate");
+
+ALTER TABLE "GroupBooking" DROP CONSTRAINT IF EXISTS "GroupBooking_participants_check";
 ALTER TABLE "GroupBooking" ADD CONSTRAINT "GroupBooking_participants_check"
   CHECK ("participantCount" >= 1 AND "elderlyCount" >= 0 AND "elderlyCount" <= "participantCount" AND "wheelchairCount" >= 0 AND "wheelchairCount" <= "participantCount");
+
+ALTER TABLE "GroupBooking" DROP CONSTRAINT IF EXISTS "GroupBooking_price_check";
 ALTER TABLE "GroupBooking" ADD CONSTRAINT "GroupBooking_price_check"
   CHECK ("unitPrice" >= 0 AND "estimatedTotalPrice" = "unitPrice" * "participantCount" AND "estimatedDpAmount" >= 0 AND "estimatedDpAmount" <= "estimatedTotalPrice");
+
+ALTER TABLE "PaymentLog" DROP CONSTRAINT IF EXISTS "PaymentLog_amount_check";
 ALTER TABLE "PaymentLog" ADD CONSTRAINT "PaymentLog_amount_check"
   CHECK ("amount" > 0);
 
@@ -232,7 +268,8 @@ ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public REVOKE ALL ON SEQUEN
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public REVOKE ALL ON FUNCTIONS FROM anon, authenticated;
 
 INSERT INTO "_prisma_migrations" ("id","checksum","finished_at","migration_name","applied_steps_count")
-VALUES ('a1c4b8e2-7320-4f9a-8c3d-000100000001', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', now(), '0001_init_mubarak_miles', 1);
+VALUES ('a1c4b8e2-7320-4f9a-8c3d-000100000001', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', now(), '0001_init_mubarak_miles', 1)
+ON CONFLICT ("id") DO NOTHING;
 
 -- ===== Data Awal (Seed sesuai Brosur & PPBI) =====
 INSERT INTO "Package" (
@@ -263,14 +300,16 @@ INSERT INTO "Package" (
   ARRAY['Hotel Bintang 3 Pilihan','Konsumsi Halal 3x Sehari Ramah Lansia','Armada Bus AC Resmi SPIONAM & Ramp Check H-1','Muthawwif Profesional & Ziarah Handbook','Dokumentasi Eksklusif & LPJ Kegiatan','Asuransi Perjalanan Syariah','Kursi Roda Lipat & Oksigen Portabel (Oxycan)'],
   ARRAY['Lasnur Pallace Hotel Tegal / Setara','De La Charis Hotel Tuban / Setara'],
   true, 2, now()
-);
+)
+ON CONFLICT ("id") DO NOTHING;
 
 INSERT INTO "DepartureSlot" (
   "id","packageId","departDate","returnDate","label",
   "maxRombonganQuota","bookedRombonganCount","seatCapacityPerBus","sortOrder","updatedAt"
 ) VALUES
 ('slot_2027_02_01','pkg_walisongo_3h2m','2027-02-01','2027-02-03','Gelombang Perdana: 1–3 Februari 2027',2,0,40,1,now()),
-('slot_2027_02_15','pkg_walisongo_3h2m','2027-02-15','2027-02-17','Gelombang Kedua: 15–17 Februari 2027',2,0,40,2,now());
+('slot_2027_02_15','pkg_walisongo_3h2m','2027-02-15','2027-02-17','Gelombang Kedua: 15–17 Februari 2027',2,0,40,2,now())
+ON CONFLICT ("id") DO NOTHING;
 
 INSERT INTO "Destination" ("id","slug","name","city","category","description","lat","lng","imageUrl","sortOrder","updatedAt") VALUES
 ('dest_ampel','makam-sunan-ampel','Makam Sunan Ampel','Surabaya','MAKAM','Titik awal keberangkatan dan ziarah ke makam Raden Rahmat (Sunan Ampel) di kawasan Masjid Agung Sunan Ampel Surabaya.',-7.2302,112.7428,'/images/dest-ampel.webp',1,now()),
@@ -284,7 +323,8 @@ INSERT INTO "Destination" ("id","slug","name","city","category","description","l
 ('dest_masjid_demak','masjid-agung-demak','Masjid Agung Demak','Demak','MASJID','Kunjungan ibadah dan tadabbur sejarah kesultanan Islam pertama di Jawa pada masjid bersejarah peninggalan para Wali.',-6.8946,110.6373,'/images/dest-masjid-demak.webp',9,now()),
 ('dest_majt','masjid-agung-jawa-tengah','Masjid Agung Jawa Tengah (MAJT)','Semarang','MASJID','Shalat berjamaah dan wisata religi di masjid megah berpayung raksasa hidrolik di Kota Semarang.',-6.9836,110.4455,'/images/dest-majt.webp',10,now()),
 ('dest_kota_lama','kota-lama-semarang','Kawasan Wisata Kota Lama Semarang','Semarang','WISATA','Tour wisata santai dan dokumentasi kebersamaan rombongan di kawasan cagar budaya berarsitektur klasik.',-6.9682,110.4275,'/images/dest-kota-lama.webp',11,now()),
-('dest_gunung_jati','makam-sunan-gunung-jati','Makam Sunan Gunung Jati','Cirebon','MAKAM','Ziarah penutup rangkaian Wali Songo di kompleks makam Syarif Hidayatullah (Sunan Gunung Jati) sebelum istirahat di Hotel Tegal.',-6.6714,108.5393,'/images/dest-gunung-jati.webp',12,now());
+('dest_gunung_jati','makam-sunan-gunung-jati','Makam Sunan Gunung Jati','Cirebon','MAKAM','Ziarah penutup rangkaian Wali Songo di kompleks makam Syarif Hidayatullah (Sunan Gunung Jati) sebelum istirahat di Hotel Tegal.',-6.6714,108.5393,'/images/dest-gunung-jati.webp',12,now())
+ON CONFLICT ("id") DO NOTHING;
 
 INSERT INTO "Faq" ("id","question","answer","sortOrder","updatedAt") VALUES
 ('faq_all_in','Apa yang dimaksud dengan Paket All-In Zero-Cash Hassle?','Seluruh pos pengeluaran selama perjalanan (bus pariwisata AC resmi, hotel bintang 3 selama 2 malam, makan prasmanan halal 3x sehari, retribusi masuk makam, infaq resmi, shuttle lokal, tol, parkir, hingga tips kru) sudah tercakup dalam satu harga kontrak di awal. Jamaah dan pengurus majelis tidak dibebani pungutan uang printilan di jalan.',1,now()),
@@ -292,7 +332,8 @@ INSERT INTO "Faq" ("id","question","answer","sortOrder","updatedAt") VALUES
 ('faq_mou_dp','Bagaimana alur pemesanan dan pembayaran untuk rombongan Majelis Taklim?','Setelah mengisi form Permintaan Penawaran di website, tim kami akan menindaklanjuti via WhatsApp untuk penyusunan MOU di atas materai. Pembayaran dilakukan 2 tahap: Uang Muka (DP) minimal 50% paling lambat H-30 sebelum keberangkatan, dan pelunasan 50% paling lambat H-14 sebelum keberangkatan.',3,now()),
 ('faq_kapasitas','Berapa jumlah jamaah dalam satu rombongan keberangkatan?','Kapasitas ideal untuk 1 bus pariwisata adalah 40 jamaah (rentang pemesanan 20–45 jamaah per bus). Jika komunitas Anda berjumlah lebih dari 45 jamaah, kami dapat menyiapkan lebih dari 1 unit armada bus.',4,now()),
 ('faq_keamanan_bus','Bagaimana standar keamanan armada bus yang digunakan?','Mubarak Miles Tour hanya bermitra dengan Perusahaan Otobus (PO) resmi yang terdaftar aktif di portal SPIONAM Kementerian Perhubungan dan memiliki Bukti Lulus Uji Elektronik (BLUE) aktif. Selain itu, tim operasional kami wajib melakukan Ramp Check fisik H-1 sebelum keberangkatan.',5,now()),
-('faq_custom','Apakah tanggal keberangkatan dan titik penjemputan bisa menyesuaikan majelis kami?','Bisa. Selain jadwal reguler (seperti 1–3 Februari 2027), Anda dapat memilih Paket Custom Rombongan untuk menentukan tanggal keberangkatan sendiri serta titik penjemputan langsung di lokasi majelis/komunitas di Surabaya Raya maupun Jawa Timur.',6,now());
+('faq_custom','Apakah tanggal keberangkatan dan titik penjemputan bisa menyesuaikan majelis kami?','Bisa. Selain jadwal reguler (seperti 1–3 Februari 2027), Anda dapat memilih Paket Custom Rombongan untuk menentukan tanggal keberangkatan sendiri serta titik penjemputan langsung di lokasi majelis/komunitas di Surabaya Raya maupun Jawa Timur.',6,now())
+ON CONFLICT ("id") DO NOTHING;
 
 COMMIT;
 
