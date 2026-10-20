@@ -232,7 +232,7 @@ ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public REVOKE ALL ON SEQUEN
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public REVOKE ALL ON FUNCTIONS FROM anon, authenticated;
 
 INSERT INTO "_prisma_migrations" ("id","checksum","finished_at","migration_name","applied_steps_count")
-VALUES ('a1c4b8e2-7320-4f9a-8c3d-0001mubarak01', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', now(), '0001_init_mubarak_miles', 1);
+VALUES ('a1c4b8e2-7320-4f9a-8c3d-000100000001', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', now(), '0001_init_mubarak_miles', 1);
 
 -- ===== Data Awal (Seed sesuai Brosur & PPBI) =====
 INSERT INTO "Package" (
