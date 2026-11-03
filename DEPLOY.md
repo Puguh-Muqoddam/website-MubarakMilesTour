@@ -2,7 +2,7 @@
 
 Panduan deploy **Website Mubarak Miles Tour** (Next.js 16 + OpenNext Cloudflare + Supabase PostgreSQL via Hyperdrive). Seluruh langkah dirancang tanpa Google Cloud Platform (GCP) dan mengikuti arsitektur Zero-Trust yang telah teruji. **Jangan pernah menulis nilai rahasia (password, anon key, secret key) di file mana pun di dalam repositori.**
 
-Produksi saat ini: **https://mubarak-miles-tour.puguhmuqoddam151.workers.dev**, Worker `mubarak-miles-tour`, GitHub `https://github.com/Puguh-Muqoddam/website-MubarakMilesTour`, Supabase project `guzniqzpdpqgwyropdlf`, Hyperdrive ID `2f06eb9be4c54c71919775983c353b68` (Session Pooler port 5432).
+Produksi saat ini: **https://mubarakmilestour.my.id** (dan `https://www.mubarakmilestour.my.id`), Worker `mubarak-miles-tour` (`https://mubarak-miles-tour.puguhmuqoddam151.workers.dev`), GitHub `https://github.com/Puguh-Muqoddam/website-MubarakMilesTour`, Supabase project `guzniqzpdpqgwyropdlf`, Hyperdrive ID `2f06eb9be4c54c71919775983c353b68` (Session Pooler port 5432).
 
 ---
 

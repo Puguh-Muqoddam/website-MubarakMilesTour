@@ -5,6 +5,10 @@ Tahap: 7 (Hardening Keamanan, SEO JSON-LD, Sitemap/Robots, & Panduan Deployment 
 Seluruh tahapan pembangunan Website Mubarak Miles Tour (Tahap 1 s.d. Tahap 7) telah selesai dikerjakan dan diverifikasi menggunakan TypeScript (`strict`), ESLint, Vitest, serta `next build`.
 
 ## Selesai
+- [x] 2026-11-03 — **Aktivasi Custom Domain `mubarakmilestour.my.id`**:
+  - Domain `mubarakmilestour.my.id` dan `www.mubarakmilestour.my.id` telah resmi terhubung ke Cloudflare Workers dengan SSL/TLS aktif.
+  - Runtime secret `SITE_URL` diperbarui ke `https://mubarakmilestour.my.id`.
+  - Verifikasi SEO & canonical URL, `sitemap.xml`, `robots.txt`, dan portal `/admin/login` berfungsi normal dengan response HTTP 200 OK dari Cloudflare edge Singapore.
 - [x] 2026-11-03 — **Integrasi Aset Asli & Color Palette**:
   - Menyusun dokumentasi palet warna resmi `colpal.md` (Emerald Deep, Emerald Mid, Sage Card, Cream, Sand, Gold, Gold Dark, Ink, Muted, Line, Promo Red) lengkap dengan HEX, RGB, rasio kontras WCAG AA/AAA, dan panduan tipografi.
   - Memetakan dan menyalin seluruh 37 file foto asli ke struktur direktori `public/images/destinasi/` (29 foto untuk 12 destinasi), `public/images/hotel/` (2 hotel bintang 3), dan `public/images/kuliner/` (6 foto sajian prasmanan dan resto transit).
