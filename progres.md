@@ -5,6 +5,11 @@ Tahap: 7 (Hardening Keamanan, SEO JSON-LD, Sitemap/Robots, & Panduan Deployment 
 Seluruh tahapan pembangunan Website Mubarak Miles Tour (Tahap 1 s.d. Tahap 7) telah selesai dikerjakan dan diverifikasi menggunakan TypeScript (`strict`), ESLint, Vitest, serta `next build`.
 
 ## Selesai
+- [x] 2026-11-03 — **Koreksi Pemetaan Aset Berdasarkan Nama Asli (`asset image/`)**:
+  - Memverifikasi checksum seluruh 37 file di `asset image/` terhadap `public/images/`.
+  - Memperbaiki pertukaran foto antara `makamsunanmuria.jpeg` (kini tepat memetakan ke `dest-muria.jpeg`) dan `makamsunankudus3.jpeg` (kini tepat memetakan ke foto kedua Sunan Kudus `dest-kudus-2.jpeg`).
+  - Memastikan ke-37 aset terpetakan 100% akurat sesuai nama baru dari pengguna.
+  - Deploy dan sinkronisasi aset ke Cloudflare Workers (`https://mubarakmilestour.my.id`).
 - [x] 2026-11-03 — **Standardisasi Copywriting Profesional B2B**:
   - Menghapus seluruh celetukan informal/kasual di seluruh komponen (`(Bukan Tidur di Bus)`, `Bukan sekadar nasi kotak seadanya`, `All-In Tanpa Pungli`, `uang printilan di jalan`, `tanpa repot`).
   - Mengubah narasi menjadi bahasa korporat & wisata religi profesional berstandar B2B (`Akomodasi Hotel Bintang 3 Selama 2 Malam`, `Istirahat Berkualitas Jamaah Lansia`, `Prinsip Transparansi: Zero-Cash Hassle (Satu Harga All-In)`, `All-In Transparan`).
