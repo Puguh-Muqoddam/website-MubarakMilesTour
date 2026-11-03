@@ -260,13 +260,13 @@ export const FIXTURE_FAQS: PublicFaq[] = [
     id: "faq_all_in",
     question: "Apa yang dimaksud dengan Paket All-In Zero-Cash Hassle?",
     answer:
-      "Seluruh pos pengeluaran selama perjalanan (bus pariwisata AC resmi, hotel bintang 3 selama 2 malam, makan prasmanan halal 3x sehari, retribusi masuk makam, infaq resmi, shuttle lokal, tol, parkir, hingga tips kru) sudah tercakup dalam satu harga kontrak di awal. Jamaah dan pengurus majelis tidak dibebani pungutan uang printilan di jalan.",
+      "Seluruh pos pengeluaran selama perjalanan (bus pariwisata AC resmi, hotel bintang 3 selama 2 malam, makan prasmanan halal 3x sehari, retribusi masuk makam, infaq resmi, shuttle lokal, tol, parkir, hingga tips kru) sudah tercakup dalam satu harga kontrak di awal. Jamaah dan pengurus majelis tidak lagi dibebani biaya operasional tambahan di perjalanan.",
   },
   {
     id: "faq_lansia",
     question: "Fasilitas apa saja yang disiapkan khusus untuk jamaah lansia?",
     answer:
-      "Kami menyediakan 1 unit kursi roda lipat (atau sesuai permintaan di awal), 2 tabung oksigen portabel (Oxycan), kotak P3K & tim pendamping medis, menu konsumsi yang ramah orang tua, serta pemilihan titik transit dan hotel dengan akses yang mudah bagi lansia.",
+      "Kami menyediakan 1 unit kursi roda lipat (atau sesuai kebutuhan rombongan), 2 tabung oksigen portabel (Oxycan), kotak P3K lengkap, menu konsumsi bergizi yang ramah jamaah lansia, serta pemilihan titik transit dan hotel bintang 3 dengan akses yang ramah lansia.",
   },
   {
     id: "faq_mou_dp",

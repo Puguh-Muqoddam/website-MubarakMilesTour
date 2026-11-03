@@ -19,7 +19,7 @@ const COMMUNITY_SEGMENTS = [
   {
     title: "Komunitas Pengajian & Takmir Masjid",
     description:
-      "Perjalanan religi jamaah masjid, paguyuban RT/RW, atau komunitas warga dengan sistem kontrak satu pintu tanpa repot mengurus tiket dan makan terpisah.",
+      "Perjalanan religi jamaah masjid, paguyuban, atau komunitas warga dengan sistem kontrak satu pintu tanpa beban koordinasi teknis terpisah.",
     icon: Building2,
     badge: "1–3 Bus Rombongan",
   },
@@ -62,27 +62,29 @@ export function About() {
               }
             >
               <p>
-                Banyak pengurus Majelis Taklim dan ketua rombongan mengalami
-                kendala saat menyusun ziarah Wali Songo secara mandiri: biaya
-                membengkak karena pungutan printilan di perjalanan, bus tidak
-                laik jalan, hingga jamaah sepuh yang kelelahan karena jadwal
-                bermalam di dalam bus.
+                Banyak pengurus Majelis Taklim dan koordinator rombongan
+                menghadapi tantangan dalam merencanakan ziarah Wali Songo secara
+                mandiri: kepastian transparansi anggaran perjalanan, verifikasi
+                kelaikan armada transportasi, hingga kenyamanan jamaah sepuh
+                yang memerlukan akomodasi hotel dan waktu istirahat yang memadai.
               </p>
               <p className="mt-4">
                 <strong>Mubarak Miles Tour (Surabaya)</strong> hadir khusus
-                sebagai mitra perjalanan <strong>B2B Rombongan</strong>. Cukup
-                satu kesepakatan MOU untuk seluruh rombongan bus Anda—mulai dari
-                armada resmi, penginapan 2 malam di hotel bintang 3, konsumsi 3x
-                sehari, hingga perlindungan jamaah lansia telah kami kelola
-                secara profesional.
+                sebagai mitra perjalanan resmi <strong>B2B Rombongan</strong>.
+                Melalui satu kesepakatan kontrak (MOU) terpadu untuk rombongan
+                bus Anda—seluruh fasilitas armada resmi berizin Kemenhub,
+                akomodasi 2 malam di hotel bintang 3, konsumsi prasmanan 3x
+                sehari, bimbingan Muthawwif bersanad, hingga fasilitas ramah
+                lansia telah dikelola secara profesional.
               </p>
             </SectionHeading>
 
             <div className="mt-8 rounded-2xl border border-line bg-sand p-6">
               <p className="font-serif text-xl font-bold text-ink italic">
-                &ldquo;Kami memastikan ketua rombongan dapat ikut beribadah
-                dengan khusyuk bersama jamaah, bukan sibuk mengurus logistik di
-                jalan.&rdquo;
+                &ldquo;Kami berkomitmen memastikan para pengurus dan koordinator
+                dapat beribadah dengan khusyuk bersama jamaah, sementara seluruh
+                manajemen operasional dan logistik ditangani secara
+                profesional.&rdquo;
               </p>
               <p className="mt-2 text-xs font-bold tracking-wider text-gold-dark uppercase">
                 — Tim Manajemen Mubarak Miles Tour, Surabaya

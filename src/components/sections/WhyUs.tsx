@@ -187,17 +187,14 @@ export function WhyUs() {
               </span>
               <div>
                 <h3 className="font-sans text-lg font-extrabold text-gold sm:text-xl">
-                  Prinsip Syariah: Zero-Cash Hassle (Tanpa Uang Printilan)
+                  Prinsip Transparansi: Zero-Cash Hassle (Satu Harga All-In)
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-cream/90">
-                  Tidak ada lagi tarikan uang dadakan di atas bus untuk tiket
-                  masuk kawasan makam, parkir, tol, atau restribusi lokal yang
-                  sering membuat pengurus rombongan sungkan. Seluruh komponen
-                  operasional telah terangkum transparan di dalam{" "}
+                  Seluruh kebutuhan operasional perjalanan—meliputi tiket kawasan ziarah, infaq resmi, parkir armada, jalan tol, hingga shuttle lokal—telah terangkum secara menyeluruh dalam{" "}
                   <strong className="font-semibold text-cream">
                     satu kontrak MOU di awal
                   </strong>
-                  .
+                  . Bebas dari pungutan atau biaya operasional tambahan selama di perjalanan.
                 </p>
               </div>
             </div>
@@ -217,9 +214,7 @@ export function WhyUs() {
                 </h3>
               </div>
               <p className="max-w-md text-xs leading-relaxed text-cream/80">
-                Bukan sekadar nasi kotak seadanya. Jamaah rombongan menikmati
-                makanan prasmanan hangat di restoran rekanan terstandar dengan
-                toilet bersih dan musholla yang lapang.
+                Seluruh jamaah rombongan disajikan hidangan prasmanan hangat dan bergizi secara terjadwal di restoran rekanan terstandar, didukung fasilitas toilet higienis dan tempat ibadah yang lapang.
               </p>
             </div>
 

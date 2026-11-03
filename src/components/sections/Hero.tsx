@@ -383,7 +383,7 @@ export function Hero() {
                   Kontrak Syariah B2B
                 </dt>
                 <dd className="mt-0.5 text-lg font-extrabold text-gold">
-                  All-In Tanpa Pungli
+                  All-In Transparan
                 </dd>
                 <p className="text-xs text-cream/75">
                   MOU Bermaterai · DP 50% (H-30)

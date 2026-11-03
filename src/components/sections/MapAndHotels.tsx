@@ -491,12 +491,12 @@ export function MapAndHotels({
                   Standar Akomodasi Brosur Mubarak Miles Tour
                 </span>
                 <h3 className="mt-1 font-sans text-2xl font-extrabold text-ink">
-                  2 Malam Menginap di Hotel Bintang 3 (Bukan Tidur di Bus)
+                  Akomodasi Hotel Bintang 3 Selama 2 Malam
                 </h3>
               </div>
               <span className="inline-flex items-center gap-2 self-start rounded-full bg-emerald-deep px-4 py-1.5 text-xs font-bold text-gold sm:self-auto">
                 <Building2 className="h-4 w-4" />
-                Istirahat Optimal Jamaah Lansia
+                Istirahat Berkualitas Jamaah Lansia
               </span>
             </div>
 
