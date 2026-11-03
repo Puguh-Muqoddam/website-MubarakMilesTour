@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { buildTravelAgencyJsonLd } from "./seo";
-import { FIXTURE_PACKAGES } from "@/server/db/fixtures";
+import { buildFaqPageJsonLd, buildTravelAgencyJsonLd } from "./seo";
+import { FIXTURE_FAQS, FIXTURE_PACKAGES } from "@/server/db/fixtures";
 
 describe("buildTravelAgencyJsonLd (SEO & XSS safety)", () => {
   it("menghasilkan JSON-LD TravelAgency & TouristTrip yang valid dengan harga promo aktif", () => {
@@ -35,5 +35,21 @@ describe("buildTravelAgencyJsonLd (SEO & XSS safety)", () => {
 
     expect(raw).not.toContain("</script>");
     expect(raw).toContain("\\u003c/script>");
+  });
+
+  it("menghasilkan JSON-LD FAQPage untuk Google Rich Results", () => {
+    const raw = buildFaqPageJsonLd(FIXTURE_FAQS);
+    const parsed = JSON.parse(raw);
+
+    expect(parsed["@type"]).toBe("FAQPage");
+    expect(parsed.mainEntity).toHaveLength(FIXTURE_FAQS.length);
+    expect(parsed.mainEntity[0]).toMatchObject({
+      "@type": "Question",
+      name: FIXTURE_FAQS[0].question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: FIXTURE_FAQS[0].answer,
+      },
+    });
   });
 });

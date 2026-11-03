@@ -5,6 +5,12 @@ Tahap: 7 (Hardening Keamanan, SEO JSON-LD, Sitemap/Robots, & Panduan Deployment 
 Seluruh tahapan pembangunan Website Mubarak Miles Tour (Tahap 1 s.d. Tahap 7) telah selesai dikerjakan dan diverifikasi menggunakan TypeScript (`strict`), ESLint, Vitest, serta `next build`.
 
 ## Selesai
+- [x] 2026-11-03 — **Optimasi SEO, Sitemap XML, Robots.txt, & Google Rich Results Schema.org**:
+  - Memutakhirkan XML Sitemap (`src/app/sitemap.ts`) dengan `lastModified`, `changeFrequency: "daily"`, dan `priority: 1.0` pada URL kanonis `https://mubarakmilestour.my.id/`.
+  - Mengonfigurasi `src/app/robots.ts` dengan izin khusus untuk `Googlebot` dan `Googlebot-Image` (untuk pengindeksan 37 foto destinasi/kuliner/hotel) serta proteksi blokir terhadap `/admin` dan `/pesanan/`.
+  - Menambahkan Structured Data Schema.org `FAQPage` (`src/lib/seo.ts` & `src/lib/seo.test.ts`) untuk memicu Google Search Rich Results (dropdown akordeon tanya-jawab langsung di halaman hasil pencarian).
+  - Memperkaya metadata `src/app/layout.tsx`: daftar keywords pencarian wisata religi, robot directives (`max-image-preview: large`, `max-snippet: -1`), OpenGraph / Twitter tags, publisher/author, dan dukungan verifikasi Google Search Console (`GOOGLE_SITE_VERIFICATION`).
+  - Memverifikasi unit test (69/69 lulus) dan build OpenNext.
 - [x] 2026-11-03 — **Koreksi Pemetaan Aset Berdasarkan Nama Asli (`asset image/`)**:
   - Memverifikasi checksum seluruh 37 file di `asset image/` terhadap `public/images/`.
   - Memperbaiki pertukaran foto antara `makamsunanmuria.jpeg` (kini tepat memetakan ke `dest-muria.jpeg`) dan `makamsunankudus3.jpeg` (kini tepat memetakan ke foto kedua Sunan Kudus `dest-kudus-2.jpeg`).

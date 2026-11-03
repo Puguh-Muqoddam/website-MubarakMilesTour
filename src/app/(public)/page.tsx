@@ -9,7 +9,11 @@ import { BookingSection } from "@/components/sections/BookingSection";
 import { Faq } from "@/components/sections/Faq";
 import { Footer } from "@/components/sections/Footer";
 import { getContactWhatsapp, getTurnstileSiteKey } from "@/lib/public-config";
-import { buildTravelAgencyJsonLd, siteUrl } from "@/lib/seo";
+import {
+  buildFaqPageJsonLd,
+  buildTravelAgencyJsonLd,
+  siteUrl,
+} from "@/lib/seo";
 import { bookingWindow } from "@/server/booking/rules";
 import {
   getDepartureSlots,
@@ -30,13 +34,19 @@ export default async function HomePage() {
   const whatsapp = getContactWhatsapp();
   const siteKey = getTurnstileSiteKey();
   const dateBounds = bookingWindow(new Date());
-  const jsonLd = buildTravelAgencyJsonLd(siteUrl(), packages);
+  const baseUrl = siteUrl();
+  const jsonLd = buildTravelAgencyJsonLd(baseUrl, packages);
+  const faqJsonLd = buildFaqPageJsonLd(faqs);
 
   return (
     <div className="flex min-h-screen flex-col">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: faqJsonLd }}
       />
       <Navbar />
       <main id="konten" className="flex-1">

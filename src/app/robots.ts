@@ -12,7 +12,18 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
         allow: "/",
         disallow: ["/admin", "/pesanan/"],
       },
+      {
+        userAgent: "Googlebot",
+        allow: "/",
+        disallow: ["/admin", "/pesanan/"],
+      },
+      {
+        userAgent: "Googlebot-Image",
+        allow: ["/", "/images/"],
+        disallow: ["/admin", "/pesanan/"],
+      },
     ],
     sitemap: `${base}/sitemap.xml`,
+    host: base,
   };
 }

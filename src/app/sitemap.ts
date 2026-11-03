@@ -4,11 +4,15 @@ import { siteUrl } from "@/lib/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   await connection();
+  const base = siteUrl();
+  const now = new Date();
+
   return [
     {
-      url: `${siteUrl()}/`,
-      changeFrequency: "weekly",
-      priority: 1,
+      url: `${base}/`,
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 1.0,
     },
   ];
 }

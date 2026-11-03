@@ -1,6 +1,6 @@
 import "server-only";
 import { SITE } from "./site";
-import type { PublicPackage } from "@/server/db/types";
+import type { PublicFaq, PublicPackage } from "@/server/db/types";
 
 /** URL kanonis situs dari env runtime SITE_URL (tanpa garis miring akhir). */
 export function siteUrl(): string {
@@ -22,17 +22,26 @@ export function buildTravelAgencyJsonLd(
     "@context": "https://schema.org",
     "@type": "TravelAgency",
     name: SITE.name,
+    alternateName: ["Mubarak Miles", "Mubarak Miles Tour Surabaya"],
     description: SITE.tagline,
     url: baseUrl,
+    logo: `${baseUrl}/images/logo.png`,
+    image: `${baseUrl}/images/logo.png`,
     telephone: `+${SITE.contact.whatsappDefault62}`,
     email: SITE.contact.email,
+    priceRange: "Rp1.399.000",
+    currenciesAccepted: "IDR",
+    paymentAccepted: "Bank Transfer, Cash",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Surabaya",
       addressRegion: "Jawa Timur",
       addressCountry: "ID",
     },
-    areaServed: "Jawa Timur, Indonesia",
+    areaServed: {
+      "@type": "AdministrativeArea",
+      name: "Jawa Timur, Indonesia",
+    },
     sameAs: [SITE.contact.instagramUrl],
     makesOffer: packages.map((pkg) => ({
       "@type": "Offer",
@@ -54,6 +63,27 @@ export function buildTravelAgencyJsonLd(
         description: pkg.description ?? SITE.tagline,
         touristType:
           "Rombongan Majelis Taklim, Komunitas, Pondok Pesantren, Yayasan, & Sekolah",
+      },
+    })),
+  };
+
+  return JSON.stringify(payload).replace(/</g, "\\u003c");
+}
+
+/**
+ * Membangun JSON-LD terstruktur `FAQPage` untuk Google Rich Results,
+ * agar tanya-jawab rombongan langsung tampil sebagai dropdown interaktif di hasil pencarian Google.
+ */
+export function buildFaqPageJsonLd(faqs: readonly PublicFaq[]): string {
+  const payload = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
       },
     })),
   };
