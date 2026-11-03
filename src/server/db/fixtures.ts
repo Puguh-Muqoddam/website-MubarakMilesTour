@@ -119,7 +119,7 @@ export const FIXTURE_DESTINATIONS: PublicDestination[] = [
       "Titik awal keberangkatan dan ziarah ke makam Raden Rahmat (Sunan Ampel) di kawasan Masjid Agung Sunan Ampel Surabaya.",
     lat: -7.2302,
     lng: 112.7428,
-    imageUrl: "/images/dest-ampel.webp",
+    imageUrl: "/images/destinasi/dest-ampel.jpeg",
   },
   {
     id: "dest_gresik",
@@ -131,7 +131,7 @@ export const FIXTURE_DESTINATIONS: PublicDestination[] = [
       "Ziarah ke makam wali tertua di jajaran Wali Songo, Syekh Maulana Malik Ibrahim di pusat Kota Gresik.",
     lat: -7.1592,
     lng: 112.6562,
-    imageUrl: "/images/dest-malik-ibrahim.webp",
+    imageUrl: "/images/destinasi/dest-malik-ibrahim.jpeg",
   },
   {
     id: "dest_giri",
@@ -143,7 +143,7 @@ export const FIXTURE_DESTINATIONS: PublicDestination[] = [
       "Ziarah ke makam Raden Paku (Sunan Giri) di perbukitan Kebomas, dilengkapi koordinasi shuttle lokal ramah lansia.",
     lat: -7.1695,
     lng: 112.6311,
-    imageUrl: "/images/dest-giri.webp",
+    imageUrl: "/images/destinasi/dest-giri.jpeg",
   },
   {
     id: "dest_drajat",
@@ -155,7 +155,7 @@ export const FIXTURE_DESTINATIONS: PublicDestination[] = [
       "Ziarah ke makam Raden Qasim (Sunan Drajat) di Paciran, Lamongan yang sarat warisan filosofi kepedulian sosial.",
     lat: -6.8851,
     lng: 112.3924,
-    imageUrl: "/images/dest-drajat.webp",
+    imageUrl: "/images/destinasi/dest-drajat.jpeg",
   },
   {
     id: "dest_bonang",
@@ -167,7 +167,7 @@ export const FIXTURE_DESTINATIONS: PublicDestination[] = [
       "Ziarah ke kompleks makam Raden Makhdum Ibrahim (Sunan Bonang) di jantung Kota Tuban.",
     lat: -6.8947,
     lng: 112.0632,
-    imageUrl: "/images/dest-bonang.webp",
+    imageUrl: "/images/destinasi/dest-bonang.jpeg",
   },
   {
     id: "dest_muria",
@@ -179,7 +179,7 @@ export const FIXTURE_DESTINATIONS: PublicDestination[] = [
       "Ziarah ke makam Raden Umar Said (Sunan Muria) di lereng Gunung Muria dengan koordinasi ojek/shuttle terpadu All-In.",
     lat: -6.6624,
     lng: 110.8975,
-    imageUrl: "/images/dest-muria.webp",
+    imageUrl: "/images/destinasi/dest-muria.jpeg",
   },
   {
     id: "dest_kudus",
@@ -191,7 +191,7 @@ export const FIXTURE_DESTINATIONS: PublicDestination[] = [
       "Ziarah ke makam Ja'far Shadiq (Sunan Kudus) dan menyaksikan arsitektur ikonik Menara Kudus.",
     lat: -6.8044,
     lng: 110.8328,
-    imageUrl: "/images/dest-menara-kudus.webp",
+    imageUrl: "/images/destinasi/dest-menara-kudus.jpeg",
   },
   {
     id: "dest_kalijaga",
@@ -203,7 +203,7 @@ export const FIXTURE_DESTINATIONS: PublicDestination[] = [
       "Ziarah ke makam Raden Said (Sunan Kalijaga) di Kadilangu, Demak dengan bimbingan tahlil bersanad Aswaja.",
     lat: -6.9061,
     lng: 110.6524,
-    imageUrl: "/images/dest-kalijaga.webp",
+    imageUrl: "/images/destinasi/dest-kalijaga.jpeg",
   },
   {
     id: "dest_masjid_demak",
@@ -215,7 +215,7 @@ export const FIXTURE_DESTINATIONS: PublicDestination[] = [
       "Kunjungan ibadah dan tadabbur sejarah kesultanan Islam pertama di Jawa pada masjid bersejarah peninggalan para Wali.",
     lat: -6.8946,
     lng: 110.6373,
-    imageUrl: "/images/dest-masjid-demak.webp",
+    imageUrl: "/images/destinasi/dest-masjid-demak.jpeg",
   },
   {
     id: "dest_majt",
@@ -227,7 +227,7 @@ export const FIXTURE_DESTINATIONS: PublicDestination[] = [
       "Shalat berjamaah dan wisata religi di masjid megah berpayung raksasa hidrolik di Kota Semarang.",
     lat: -6.9836,
     lng: 110.4455,
-    imageUrl: "/images/dest-majt.webp",
+    imageUrl: "/images/destinasi/dest-majt.jpeg",
   },
   {
     id: "dest_kota_lama",
@@ -239,7 +239,7 @@ export const FIXTURE_DESTINATIONS: PublicDestination[] = [
       "Tour wisata santai dan dokumentasi kebersamaan rombongan di kawasan cagar budaya berarsitektur klasik.",
     lat: -6.9682,
     lng: 110.4275,
-    imageUrl: "/images/dest-kota-lama.webp",
+    imageUrl: "/images/destinasi/dest-kota-lama.jpeg",
   },
   {
     id: "dest_gunung_jati",
@@ -251,7 +251,7 @@ export const FIXTURE_DESTINATIONS: PublicDestination[] = [
       "Ziarah penutup rangkaian Wali Songo di kompleks makam Syarif Hidayatullah (Sunan Gunung Jati) sebelum istirahat di Hotel Tegal.",
     lat: -6.6714,
     lng: 108.5393,
-    imageUrl: "/images/dest-gunung-jati.webp",
+    imageUrl: "/images/destinasi/dest-gunung-jati.jpeg",
   },
 ];
 

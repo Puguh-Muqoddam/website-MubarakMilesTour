@@ -5,6 +5,8 @@ import Image from "next/image";
 import {
   Bus,
   CalendarDays,
+  ChevronLeft,
+  ChevronRight,
   MapPin,
   ShieldCheck,
 } from "lucide-react";
@@ -16,12 +18,51 @@ const HERO_SLIDES = [
   {
     src: "/images/brosur/1.png",
     alt: "Brosur Resmi Ziarah Wali Songo + Tour Wisata Mubarak Miles Tour",
+    badge: "Brosur Resmi",
+    title: "Paket Ziarah Wali Songo All-In",
     caption: "Masjid Agung Demak · Menara Kudus · Masjid Agung Jawa Tengah",
+  },
+  {
+    src: "/images/destinasi/dest-menara-kudus.jpeg",
+    alt: "Kawasan Menara dan Makam Sunan Kudus",
+    badge: "Dokumentasi Ziarah",
+    title: "Makam & Menara Sunan Kudus",
+    caption: "Kudus · Simbol Akulturasi Hindu-Jawa & Syiar Islam yang Toleran",
+  },
+  {
+    src: "/images/destinasi/dest-majt.jpeg",
+    alt: "Kemegahan Masjid Agung Jawa Tengah Semarang",
+    badge: "Wisata Religi",
+    title: "Masjid Agung Jawa Tengah (MAJT)",
+    caption: "Semarang · Kemegahan Arsitektur Islam Dunia & 6 Payung Hidrolik Raksasa",
+  },
+  {
+    src: "/images/destinasi/dest-ampel.jpeg",
+    alt: "Kawasan Masjid dan Makam Sunan Ampel Surabaya",
+    badge: "Dokumentasi Ziarah",
+    title: "Makam Sunan Ampel Surabaya",
+    caption: "Surabaya · Titik Awal Keberangkatan Rombongan & Titik Temu Jamaah",
+  },
+  {
+    src: "/images/destinasi/dest-masjid-demak.jpeg",
+    alt: "Masjid Agung Demak Peninggalan Wali Songo",
+    badge: "Masjid Bersejarah",
+    title: "Masjid Agung Demak Bintoro",
+    caption: "Demak · Warisan Sejarah Pusat Kerajaan Islam Pertama di Tanah Jawa",
+  },
+  {
+    src: "/images/destinasi/dest-kota-lama.jpeg",
+    alt: "Kawasan Heritage Kota Lama Semarang",
+    badge: "Tour Wisata",
+    title: "Heritage Kota Lama Semarang",
+    caption: "Semarang · Eksplorasi Kawasan Cagar Budaya & Little Netherland",
   },
   {
     src: "/images/brosur/2.png",
     alt: "Fasilitas Lengkap Rombongan Ziarah Wali Songo Mubarak Miles Tour",
-    caption: "Hotel Bintang 3 · Armada Bus Resmi SPIONAM · Ramah Jamaah Lansia",
+    badge: "Brosur Resmi",
+    title: "Fasilitas Rombongan & Hotel ★3",
+    caption: "Hotel Bintang 3 · Bus SPIONAM Resmi · Ramah Jamaah Lansia",
   },
 ] as const;
 
@@ -45,6 +86,13 @@ export function Hero() {
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [resetTimer]);
+
+  const handlePrev = () => {
+    setCurrentIndex(
+      (prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length,
+    );
+    resetTimer();
+  };
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
@@ -212,7 +260,7 @@ export function Hero() {
             </div>
           </AnimateIn>
 
-          {/* Kartu Pratinjau Brosur Resmi */}
+          {/* Kartu Pratinjau Brosur & Dokumentasi Destinasi */}
           <AnimateIn delay={150}>
             <div className="relative mx-auto max-w-md rounded-3xl border border-gold/30 bg-emerald-mid/60 p-4 shadow-2xl backdrop-blur-xs">
               <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl border border-cream/15 bg-emerald-deep">
@@ -222,20 +270,39 @@ export function Hero() {
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 90vw, 420px"
-                  priority
+                  priority={currentIndex === 0}
                 />
+                <div className="absolute top-3 left-3 rounded-full border border-gold/40 bg-emerald-deep/85 px-3 py-1 text-[11px] font-bold text-gold backdrop-blur-xs">
+                  ✦ {HERO_SLIDES[currentIndex].badge}
+                </div>
               </div>
               <div className="mt-3 flex items-center justify-between gap-2 px-1 text-xs text-cream/85">
-                <span className="font-semibold text-gold">
-                  ✦ Brosur Resmi Mubarak Miles Tour
-                </span>
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="font-bold text-cream underline decoration-gold/60 underline-offset-4 hover:text-gold"
-                >
-                  Lihat Halaman {currentIndex === 0 ? "2" : "1"} →
-                </button>
+                <div className="min-w-0 pr-2">
+                  <span className="block truncate font-bold text-gold">
+                    {HERO_SLIDES[currentIndex].title}
+                  </span>
+                  <span className="text-[11px] text-cream/70">
+                    Foto ke-{currentIndex + 1} dari {HERO_SLIDES.length}
+                  </span>
+                </div>
+                <div className="flex shrink-0 items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    aria-label="Lihat foto sebelumnya"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-cream/20 bg-emerald-deep/80 text-cream transition-colors hover:border-gold hover:text-gold"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    aria-label="Lihat foto berikutnya"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-cream/20 bg-emerald-deep/80 text-cream transition-colors hover:border-gold hover:text-gold"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
             </div>
           </AnimateIn>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   Accessibility,
   BookOpenCheck,
@@ -54,6 +55,33 @@ const BROCHURE_FEATURES = [
     description:
       "Sajian makan pagi, siang, dan malam sebanyak 3 kali sehari dengan menu bergizi yang cocok untuk jamaah dewasa maupun lansia.",
     icon: Utensils,
+  },
+] as const;
+
+const CATERING_GALLERY = [
+  {
+    title: "Restoran Transit Nyaman & Luas",
+    subtitle: "Titik Makan Terjadwal (Resto Kalijaga & Rekanan)",
+    image: "/images/kuliner/resto-kalijaga.jpeg",
+    badge: "Resto Transit Rekanan",
+  },
+  {
+    title: "Prasmanan Halal Makan Siang",
+    subtitle: "Menu Bergizi Lengkap untuk Jamaah Sepuh",
+    image: "/images/kuliner/makan-siang-2.jpeg",
+    badge: "Makan Siang Prasmanan",
+  },
+  {
+    title: "Sajian Makan Malam Bersama",
+    subtitle: "Higienis, Hangat, & Porsi Memuaskan",
+    image: "/images/kuliner/makan-malam-1.jpeg",
+    badge: "Makan Malam Bersama",
+  },
+  {
+    title: "Menu Tradisional Halal Pilihan",
+    subtitle: "Disesuaikan dengan Selera Jamaah Jawa Timur",
+    image: "/images/kuliner/makan-malam-3.jpeg",
+    badge: "Higienis & Halal",
   },
 ] as const;
 
@@ -172,6 +200,57 @@ export function WhyUs() {
                   .
                 </p>
               </div>
+            </div>
+          </div>
+        </AnimateIn>
+
+        {/* Dokumentasi Riil Fasilitas Konsumsi & Restoran Transit */}
+        <AnimateIn delay={220}>
+          <div className="mt-14 rounded-3xl border border-cream/20 bg-emerald-mid/90 p-6 sm:p-8">
+            <div className="flex flex-col justify-between gap-3 border-b border-cream/15 pb-5 sm:flex-row sm:items-center">
+              <div>
+                <span className="text-xs font-bold tracking-wider text-gold uppercase">
+                  ✦ Dokumentasi Riil Pelayanan Mubarak Miles Tour
+                </span>
+                <h3 className="mt-1 font-sans text-2xl font-extrabold text-cream">
+                  Konsumsi Prasmanan 3x Sehari &amp; Titik Transit Nyaman
+                </h3>
+              </div>
+              <p className="max-w-md text-xs leading-relaxed text-cream/80">
+                Bukan sekadar nasi kotak seadanya. Jamaah rombongan menikmati
+                makanan prasmanan hangat di restoran rekanan terstandar dengan
+                toilet bersih dan musholla yang lapang.
+              </p>
+            </div>
+
+            <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {CATERING_GALLERY.map((item) => (
+                <div
+                  key={item.title}
+                  className="group overflow-hidden rounded-2xl border border-cream/15 bg-emerald-deep shadow-md"
+                >
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-emerald-deep">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
+                    />
+                    <div className="absolute top-2.5 left-2.5 rounded-full bg-emerald-deep/85 px-2.5 py-0.5 text-[10px] font-bold text-gold backdrop-blur-xs">
+                      {item.badge}
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <h4 className="font-sans text-sm font-extrabold text-cream line-clamp-1">
+                      {item.title}
+                    </h4>
+                    <p className="mt-1 text-xs text-cream/75 line-clamp-2">
+                      {item.subtitle}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </AnimateIn>

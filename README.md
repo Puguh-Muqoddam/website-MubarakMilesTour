@@ -41,6 +41,7 @@ npm run db:seed      # jalankan seed data idempoten ke database
 ```text
 ├── AGENTS.md                  # Aturan wajib AI agent (keamanan, bisnis, desain)
 ├── DEPLOY.md                  # Panduan lengkap deploy ke Cloudflare Workers + Supabase Hyperdrive
+├── colpal.md                  # Panduan palet warna resmi & tipografi Mubarak Miles Tour
 ├── implementation_plan.md     # Rencana implementasi lengkap (Tahap 1 s.d. Tahap 7)
 ├── progres.md                 # Catatan progres pengerjaan per sesi
 ├── README.md                  # Dokumentasi dan peta struktur proyek
@@ -55,7 +56,11 @@ npm run db:seed      # jalankan seed data idempoten ke database
 │       └── 00-setup-database-baru.sql # Skrip SQL lengkap: DDL, CHECK, RLS Zero-Trust, & seed
 ├── public/
 │   └── images/
-│       └── brosur/            # Aset visual halaman 1 & 2 brosur resmi Mubarak Miles Tour
+│       ├── logo.png           # Logo resmi Mubarak Miles Tour
+│       ├── brosur/            # Aset visual halaman 1 & 2 brosur resmi Mubarak Miles Tour
+│       ├── destinasi/         # 29 foto dokumentasi riil untuk 12 destinasi ziarah & wisata
+│       ├── hotel/             # Foto akomodasi resmi (De La Charis Tuban & Lasnur Tegal)
+│       └── kuliner/           # Dokumentasi prasmanan 3x sehari & restoran transit rekanan
 ├── src/
 │   ├── app/
 │   │   ├── actions/

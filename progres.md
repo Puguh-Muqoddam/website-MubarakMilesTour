@@ -5,6 +5,13 @@ Tahap: 7 (Hardening Keamanan, SEO JSON-LD, Sitemap/Robots, & Panduan Deployment 
 Seluruh tahapan pembangunan Website Mubarak Miles Tour (Tahap 1 s.d. Tahap 7) telah selesai dikerjakan dan diverifikasi menggunakan TypeScript (`strict`), ESLint, Vitest, serta `next build`.
 
 ## Selesai
+- [x] 2026-11-03 — **Integrasi Aset Asli & Color Palette**:
+  - Menyusun dokumentasi palet warna resmi `colpal.md` (Emerald Deep, Emerald Mid, Sage Card, Cream, Sand, Gold, Gold Dark, Ink, Muted, Line, Promo Red) lengkap dengan HEX, RGB, rasio kontras WCAG AA/AAA, dan panduan tipografi.
+  - Memetakan dan menyalin seluruh 37 file foto asli ke struktur direktori `public/images/destinasi/` (29 foto untuk 12 destinasi), `public/images/hotel/` (2 hotel bintang 3), dan `public/images/kuliner/` (6 foto sajian prasmanan dan resto transit).
+  - Memperbarui database fixtures `src/server/db/fixtures.ts` dan script setup SQL `prisma/manual/00-setup-database-baru.sql` dengan path foto riil.
+  - Mengintegrasikan aset ke komponen `Hero.tsx` (carousel brosur + foto destinasi ikonik dengan navigasi interaktif), `MapAndHotels.tsx` (thumbnail foto di kartu destinasi, panel foto/peta OSM interaktif, galeri multi-foto, serta showcase 2 hotel bintang 3 resmi De La Charis Tuban dan Lasnur Syariah Tegal), dan `WhyUs.tsx` (showcase dokumentasi konsumsi prasmanan 3x sehari & resto transit).
+  - Memverifikasi `typecheck`, `lint`, dan 68 unit test Vitest (`100% pass`).
+  - Mengompilasi dan men-deploy ke Cloudflare Workers (`https://mubarak-miles-tour.puguhmuqoddam151.workers.dev`).
 - [x] 2026-10-20 — Analisis referensi (`brave-franklin`, Dreamtour, Royal Holiday, Brosur & Laporan PPBI Mubarak Miles Tour) dan penyusunan `implementation_plan.md`.
 - [x] 2026-10-20 — **Tahap 1**: Inisialisasi `package.json`, `tsconfig.json`, `next.config.ts`, `wrangler.jsonc`, `vitest.config.ts`, `AGENTS.md`, `README.md`, design tokens `src/app/globals.css`, komponen UI (`Container`, `Eyebrow`, `SectionHeading`, `Button`, `AnimateIn`, `PhotoPlaceholder`), `src/lib/env.ts` + unit test.
 - [x] 2026-10-20 — **Tahap 2**: Skema database `prisma/schema.prisma` (Prisma 7, compiler `small`), SQL setup + hardening RLS `prisma/manual/00-setup-database-baru.sql`, `prisma/seed.ts`, `src/server/db/{types,fixtures,client,log,public}.ts`, dan unit test keamanan skema `src/server/db/schema-security.test.ts`.
