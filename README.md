@@ -74,10 +74,10 @@ npm run db:seed      # jalankan seed data idempoten ke database
 │   │   ├── globals.css        # Design tokens Tailwind v4 (emerald, sage, gold, cream)
 │   │   ├── layout.tsx         # Root layout, font Plus Jakarta Sans & Cormorant Garamond, metadata OpenGraph
 │   │   ├── not-found.tsx      # Halaman 404 kustom beridentitas Mubarak Miles Tour
-│   │   ├── robots.ts          # Aturan robots.txt (disallow /admin & /pesanan/)
-│   │   ├── sitemap.ts         # Generator sitemap.xml dinamis
+│   │   ├── robots.ts          # Aturan robots.txt (izin Googlebot/Googlebot-Image, proteksi /admin & /pesanan/)
+│   │   ├── sitemap.ts         # Generator sitemap.xml dinamis (daily frequency, lastModified)
 │   │   └── (public)/
-│   │       ├── page.tsx       # Halaman utama publik + JSON-LD TravelAgency & TouristTrip
+│   │       ├── page.tsx       # Halaman utama publik + JSON-LD TravelAgency & FAQPage Rich Results
 │   │       └── pesanan/
 │   │           └── terkirim/  # Halaman ringkasan kode penawaran MMT- & tombol WhatsApp MOU
 │   ├── components/
