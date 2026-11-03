@@ -5,6 +5,11 @@ Tahap: 7 (Hardening Keamanan, SEO JSON-LD, Sitemap/Robots, & Panduan Deployment 
 Seluruh tahapan pembangunan Website Mubarak Miles Tour (Tahap 1 s.d. Tahap 7) telah selesai dikerjakan dan diverifikasi menggunakan TypeScript (`strict`), ESLint, Vitest, serta `next build`.
 
 ## Selesai
+- [x] 2026-11-03 — **Optimasi Favicon Google Search & Prioritas Gambar Brosur MMT**:
+  - Meng-generate multi-resolusi favicon & icon resmi: `public/favicon.ico` (multi-frame 48x48 dan 32x32), `public/icon-48.png`, `public/icon-96.png`, `public/icon-192.png`, `public/icon-512.png`, `public/apple-touch-icon.png`, dan `src/app/favicon.ico`.
+  - Memperbarui `src/app/layout.tsx` dengan konfigurasi icons lengkap (Google Search Favicon standard: kelipatan 48px square + `/favicon.ico` di root).
+  - Mengatur prioritas utama gambar OpenGraph (`og:image`) dan Twitter Card (`twitter:image`) langsung ke brosur resmi Mubarak Miles Tour (`/images/brosur/1.png`, 1200x900).
+  - Memisahkan secara tegas atribut Schema.org `TravelAgency` di `src/lib/seo.ts` antara `logo` (`/images/logo.png`) dan `image` (`/images/brosur/1.png`) agar rich snippet thumbnail Google selalu menampilkan brosur.
 - [x] 2026-11-03 — **Optimasi SEO, Sitemap XML, Robots.txt, & Google Rich Results Schema.org**:
   - Memutakhirkan XML Sitemap (`src/app/sitemap.ts`) dengan `lastModified`, `changeFrequency: "daily"`, dan `priority: 1.0` pada URL kanonis `https://mubarakmilestour.my.id/`.
   - Mengonfigurasi `src/app/robots.ts` dengan izin khusus untuk `Googlebot` dan `Googlebot-Image` (untuk pengindeksan 37 foto destinasi/kuliner/hotel) serta proteksi blokir terhadap `/admin` dan `/pesanan/`.

@@ -66,8 +66,17 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     alternates: { canonical: "/" },
     icons: {
-      icon: "/images/logo.png",
-      apple: "/images/logo.png",
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/icon-48.png", sizes: "48x48", type: "image/png" },
+        { url: "/icon-96.png", sizes: "96x96", type: "image/png" },
+        { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+        { url: "/images/logo.png", sizes: "705x705", type: "image/png" },
+      ],
+      shortcut: ["/favicon.ico"],
+      apple: [
+        { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      ],
     },
     openGraph: {
       type: "website",
@@ -78,16 +87,16 @@ export async function generateMetadata(): Promise<Metadata> {
       description: DESCRIPTION,
       images: [
         {
-          url: "/images/logo.png",
-          width: 800,
-          height: 800,
-          alt: `Logo ${SITE.name}`,
-        },
-        {
           url: "/images/brosur/1.png",
           width: 1200,
           height: 900,
           alt: `Brosur Resmi ${SITE.name}`,
+        },
+        {
+          url: "/images/logo.png",
+          width: 705,
+          height: 705,
+          alt: `Logo ${SITE.name}`,
         },
       ],
     },
@@ -95,7 +104,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: TITLE,
       description: DESCRIPTION,
-      images: ["/images/logo.png"],
+      images: ["/images/brosur/1.png"],
     },
     robots: {
       index: true,
