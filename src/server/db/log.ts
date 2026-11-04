@@ -17,16 +17,21 @@ export function logDbError(context: string, e: unknown): void {
     cause?: { code?: string; message?: string };
   };
   const adapter = err?.meta?.driverAdapterError?.cause;
+  const name = err?.name ?? typeof e;
+  // PrismaClientValidationError menyalin argumen query (bisa berisi data PIC) ke dalam message.
+  const mayEchoArgs = name === "PrismaClientValidationError";
   const detail = {
     context,
-    name: err?.name ?? typeof e,
+    name,
     code: err?.code ?? err?.cause?.code,
     kind: adapter?.kind,
     pgCode: adapter?.originalCode ?? adapter?.code,
-    message: (adapter?.originalMessage ?? err?.message ?? err?.cause?.message ?? String(e)).slice(
-      0,
-      500,
-    ),
+    message: mayEchoArgs
+      ? "[disembunyikan: validasi query Prisma]"
+      : (adapter?.originalMessage ?? err?.message ?? err?.cause?.message ?? String(e)).slice(
+          0,
+          500,
+        ),
   };
   console.error(`DB error [${context}]: ${JSON.stringify(detail)}`);
 }

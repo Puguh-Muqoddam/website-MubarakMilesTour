@@ -202,7 +202,12 @@ export async function addPaymentLog(
       actorEmail: actor.email,
     });
     if (!r.ok) {
-      return { error: "Gagal mencatat pembayaran untuk rombongan ini." };
+      return {
+        error:
+          r.error === "INVALID_STATUS"
+            ? "Pesanan sudah dibatalkan: hanya pencatatan Refund yang diizinkan."
+            : "Gagal mencatat pembayaran untuk rombongan ini.",
+      };
     }
   } catch (e) {
     logDbError("admin-catat-pembayaran", e);

@@ -179,6 +179,26 @@ describe("changeGroupBookingStatus & pelepasan kuota slot saat BATAL", () => {
     expect(statusLogs[0]?.toStatus).toBe("BATAL");
   });
 
+  it("menolak DP/pelunasan untuk pesanan BATAL tetapi tetap mengizinkan REFUND", async () => {
+    const { db, paymentLogs } = makeMockAdminDb({
+      status: "BATAL",
+      departureSlotId: "slot-juli",
+      bookedRombonganCount: 0,
+    });
+    const base = { bookingId: "b-1", amount: 1_000_000, actorEmail: "admin@mubarakmilestour.com" };
+
+    expect(await recordGroupPayment(db, { ...base, paymentType: "DP_50" })).toEqual({
+      ok: false,
+      error: "INVALID_STATUS",
+    });
+    expect(await recordGroupPayment(db, { ...base, paymentType: "PELUNASAN" })).toEqual({
+      ok: false,
+      error: "INVALID_STATUS",
+    });
+    expect(await recordGroupPayment(db, { ...base, paymentType: "REFUND" })).toEqual({ ok: true });
+    expect(paymentLogs).toHaveLength(1);
+  });
+
   it("mencatat pembayaran termin DP 50% secara valid ke PaymentLog", async () => {
     const { db, paymentLogs } = makeMockAdminDb({
       status: "MOU_DITANDATANGANI",

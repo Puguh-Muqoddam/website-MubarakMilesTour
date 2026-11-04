@@ -190,7 +190,7 @@ export async function changeGroupBookingStatus(
 
 export type RecordPaymentResult =
   | { ok: true }
-  | { ok: false; error: "NOT_FOUND" | "INVALID_AMOUNT" };
+  | { ok: false; error: "NOT_FOUND" | "INVALID_AMOUNT" | "INVALID_STATUS" };
 
 /** Mencatat transaksi pembayaran termin (DP 50%, Pelunasan, atau Refund) ke `PaymentLog`. */
 export async function recordGroupPayment(
@@ -209,9 +209,13 @@ export async function recordGroupPayment(
 
   const exists = await db.groupBooking.findUnique({
     where: { id: args.bookingId },
-    select: { id: true },
+    select: { id: true, status: true },
   });
   if (!exists) return { ok: false, error: "NOT_FOUND" };
+  // Pesanan BATAL tidak boleh menerima DP/pelunasan baru; hanya pengembalian dana (REFUND).
+  if (exists.status === "BATAL" && args.paymentType !== "REFUND") {
+    return { ok: false, error: "INVALID_STATUS" };
+  }
 
   await db.paymentLog.create({
     data: {

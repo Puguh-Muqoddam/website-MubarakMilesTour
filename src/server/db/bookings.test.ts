@@ -70,6 +70,7 @@ describe("Simulasi konkurensi SELECT ... FOR UPDATE pada createGroupBooking", ()
         await prev;
         try {
           const tx = {
+            closedDate: { findUnique: async () => null },
             $queryRaw: async () => [{ ...slotState }],
             departureSlot: {
               update: async () => {
@@ -116,6 +117,62 @@ describe("Simulasi konkurensi SELECT ... FOR UPDATE pada createGroupBooking", ()
     });
     expect(slotState.bookedRombonganCount).toBe(2);
     expect(createdBookings).toHaveLength(1);
+  });
+
+  it("menolak slot yang berangkat < H-14 walau requestedDepartDate klien valid (tanggal slot yang divalidasi)", async () => {
+    const slotState = {
+      id: "slot_mepet",
+      packageId: "pkg_walisongo_3h2m",
+      departDate: new Date("2026-10-25T00:00:00.000Z"), // H-5 dari NOW (2026-10-20 WIB)
+      label: "Slot mepet",
+      maxRombonganQuota: 2,
+      bookedRombonganCount: 0,
+      isClosed: false,
+      isActive: true,
+    };
+    let created = 0;
+    const tx = {
+      closedDate: { findUnique: async () => null },
+      $queryRaw: async () => [{ ...slotState }],
+      departureSlot: {
+        update: async () => {
+          slotState.bookedRombonganCount += 1;
+          return slotState;
+        },
+      },
+      groupBooking: {
+        create: async () => {
+          created += 1;
+          return {};
+        },
+      },
+    };
+    const fakeDb = {
+      package: {
+        findUnique: async () => ({
+          id: "pkg_walisongo_3h2m",
+          name: "Ziarah Wali Songo + Tour Wisata (3H2M)",
+          priceNormalPerPax: 1_499_000,
+          pricePromoPerPax: 1_399_000,
+          minParticipants: 20,
+          maxParticipants: 45,
+          isCustomAllowed: false,
+          isActive: true,
+        }),
+      },
+      closedDate: { findUnique: async () => null },
+      $transaction: async <T>(fn: (t: unknown) => Promise<T>) => fn(tx),
+    } as unknown as PrismaClient;
+
+    const res = await createGroupBooking(
+      fakeDb,
+      { ...baseInput, departureSlotId: "slot_mepet", requestedDepartDate: "2027-02-01" },
+      NOW,
+    );
+
+    expect(res).toEqual({ ok: false, error: "TOO_SOON" });
+    expect(slotState.bookedRombonganCount).toBe(0);
+    expect(created).toBe(0);
   });
 
   it("menolak paket reguler jika tidak menyertakan departureSlotId (SLOT_REQUIRED)", () => {

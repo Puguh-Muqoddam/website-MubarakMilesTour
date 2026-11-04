@@ -5,6 +5,11 @@ Tahap: 7 (Hardening Keamanan, SEO JSON-LD, Sitemap/Robots, & Panduan Deployment 
 Seluruh tahapan pembangunan Website Mubarak Miles Tour (Tahap 1 s.d. Tahap 7) telah selesai dikerjakan dan diverifikasi menggunakan TypeScript (`strict`), ESLint, Vitest, serta `next build`.
 
 ## Selesai
+- [x] 2026-11-05 — **Perbaikan hasil audit keamanan menyeluruh (laporan di luar repo: `~/security-audit-skill/website-MubarakMilesTour/run-1/`)**:
+  - `src/server/db/bookings.ts`: aturan H-14 s.d. +540 hari & tanggal tutup kini juga divalidasi pada `slot.departDate` (sebelumnya hanya pada tanggal kiriman klien) di dalam transaksi `FOR UPDATE`.
+  - `src/server/db/admin.ts` + `src/app/actions/admin.ts`: pesanan `BATAL` hanya boleh dicatat `REFUND` (DP/pelunasan ditolak dengan `INVALID_STATUS`).
+  - `src/server/db/log.ts`: pesan `PrismaClientValidationError` disembunyikan dari log agar argumen query (data PIC) tidak bocor.
+  - Test regresi baru di `bookings.test.ts` & `authorize.test.ts`; `typecheck`, `lint`, dan 71 unit test Vitest lolos.
 - [x] 2026-11-03 — **Optimasi Favicon Google Search & Prioritas Gambar Brosur MMT**:
   - Meng-generate multi-resolusi favicon & icon resmi: `public/favicon.ico` (multi-frame 48x48 dan 32x32), `public/icon-48.png`, `public/icon-96.png`, `public/icon-192.png`, `public/icon-512.png`, `public/apple-touch-icon.png`, dan `src/app/favicon.ico`.
   - Memperbarui `src/app/layout.tsx` dengan konfigurasi icons lengkap (Google Search Favicon standard: kelipatan 48px square + `/favicon.ico` di root).
@@ -63,4 +68,5 @@ Seluruh tahapan pembangunan Website Mubarak Miles Tour (Tahap 1 s.d. Tahap 7) te
 - File logo vektor/PNG transparan resolusi tinggi.
 
 ## Masalah diketahui
-- Belum ada.
+- Dugaan (perlu validasi pemilik): permintaan anonim langsung memakai kuota bus slot (default 2) sampai admin mengubahnya ke BATAL. Perlu dicek mode Turnstile, aturan WAF/rate-limit Cloudflare, dan praktik peninjauan pesanan MENUNGGU_PENAWARAN. Keputusan bisnis: reservasi kuota saat MOU, TTL, atau batas per slot/kontak.
+- CSP masih `script-src 'unsafe-inline'` (nonce butuh middleware/proxy, sedangkan AGENTS.md melarang `middleware.ts`).

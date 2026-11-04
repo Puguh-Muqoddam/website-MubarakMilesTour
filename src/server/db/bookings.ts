@@ -125,6 +125,19 @@ export async function createGroupBooking(
           const slotCheck = validateDepartureSlot(slot);
           if (!slotCheck.ok) throw new BookingRuleAbort(slotCheck.error);
 
+          // Tanggal yang benar-benar dipesan adalah tanggal slot, bukan tanggal kiriman klien:
+          // aturan H-14 s.d. +540 hari & tanggal tutup wajib diterapkan pada tanggal slot.
+          const slotClosed = await tx.closedDate.findUnique({
+            where: { date: slot.departDate },
+            select: { id: true },
+          });
+          const slotDateRule = validateDepartDate(
+            formatDateOnly(slot.departDate),
+            now,
+            slotClosed !== null,
+          );
+          if (!slotDateRule.ok) throw new BookingRuleAbort(slotDateRule.error);
+
           const quotaCheck = checkRombonganQuota(
             slot.bookedRombonganCount,
             1,
