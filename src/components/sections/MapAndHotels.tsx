@@ -155,7 +155,7 @@ export function MapAndHotels({
   }, [selected]);
 
   const activePhoto =
-    currentGallery[galleryIndex] ?? selected?.imageUrl ?? "/images/brosur/1.png";
+    currentGallery[galleryIndex] ?? selected?.imageUrl ?? "/images/brosur/1.webp";
 
   const handleSelectDestination = (slug: string) => {
     setSelectedSlug(slug);

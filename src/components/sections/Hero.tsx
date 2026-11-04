@@ -16,7 +16,7 @@ import { AnimateIn } from "@/components/ui/AnimateIn";
 
 const HERO_SLIDES = [
   {
-    src: "/images/brosur/1.png",
+    src: "/images/brosur/1.webp",
     alt: "Brosur Resmi Ziarah Wali Songo + Tour Wisata Mubarak Miles Tour",
     badge: "Brosur Resmi",
     title: "Paket Ziarah Wali Songo All-In",
@@ -58,7 +58,7 @@ const HERO_SLIDES = [
     caption: "Semarang · Eksplorasi Kawasan Cagar Budaya & Little Netherland",
   },
   {
-    src: "/images/brosur/2.png",
+    src: "/images/brosur/2.webp",
     alt: "Fasilitas Lengkap Rombongan Ziarah Wali Songo Mubarak Miles Tour",
     badge: "Brosur Resmi",
     title: "Fasilitas Rombongan & Hotel ★3",
@@ -71,6 +71,14 @@ const SLIDE_INTERVAL_MS = 5500;
 
 export function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  // Hanya slide sebelumnya (fade-out), aktif, dan berikutnya (prefetch) yang dirender,
+  // agar 7 gambar latar tidak diunduh sekaligus saat halaman dibuka.
+  const total = HERO_SLIDES.length;
+  const renderedSlides = new Set([
+    (currentIndex - 1 + total) % total,
+    currentIndex,
+    (currentIndex + 1) % total,
+  ]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const resetTimer = useCallback(() => {
@@ -120,15 +128,16 @@ export function Hero() {
                   : "pointer-events-none z-0 opacity-0"
               }`}
             >
-              <Image
-                src={slide.src}
-                alt={slide.alt}
-                fill
-                priority={idx === 0}
-                loading={idx === 0 ? undefined : "eager"}
-                className="object-cover object-center scale-105 blur-[1px]"
-                sizes="100vw"
-              />
+              {renderedSlides.has(idx) && (
+                <Image
+                  src={slide.src}
+                  alt=""
+                  fill
+                  priority={idx === 0}
+                  className="object-cover object-center scale-105 blur-[1px]"
+                  sizes="100vw"
+                />
+              )}
             </div>
           );
         })}

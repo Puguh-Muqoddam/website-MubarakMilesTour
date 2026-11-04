@@ -20,7 +20,7 @@ export default async function AdminPanelLayout({
         <div className="mx-auto flex max-w-site flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <Image
-              src="/images/logo.png"
+              src="/icon-96.png"
               alt={`Logo ${SITE.name}`}
               width={40}
               height={40}

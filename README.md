@@ -57,7 +57,8 @@ npm run db:seed      # jalankan seed data idempoten ke database
 ├── public/
 │   └── images/
 │       ├── logo.png           # Logo resmi Mubarak Miles Tour
-│       ├── brosur/            # Aset visual halaman 1 & 2 brosur resmi Mubarak Miles Tour
+│       ├── og-image.jpg       # Gambar pratinjau OpenGraph/Twitter 1200×630
+│       ├── brosur/            # Brosur resmi hal. 1 & 2 (PNG asli + versi WebP 1200px untuk hero)
 │       ├── destinasi/         # 29 foto dokumentasi riil untuk 12 destinasi ziarah & wisata
 │       ├── hotel/             # Foto akomodasi resmi (De La Charis Tuban & Lasnur Tegal)
 │       └── kuliner/           # Dokumentasi prasmanan 3x sehari & restoran transit rekanan

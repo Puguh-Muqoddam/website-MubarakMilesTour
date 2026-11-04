@@ -71,7 +71,7 @@ export default async function PrintContractInvoicePage({
         <header className="flex flex-wrap items-start justify-between gap-4 border-b-2 border-emerald-deep pb-5">
           <div className="flex items-start gap-4">
             <Image
-              src="/images/logo.png"
+              src="/icon-192.png"
               alt={`Logo ${SITE.name}`}
               width={64}
               height={64}

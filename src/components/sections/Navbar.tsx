@@ -41,7 +41,7 @@ export function Navbar() {
           className="group flex items-center gap-3 text-cream transition-opacity hover:opacity-95"
         >
           <Image
-            src="/images/logo.png"
+            src="/icon-96.png"
             alt={`Logo ${SITE.name}`}
             width={48}
             height={48}

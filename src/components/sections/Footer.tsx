@@ -18,7 +18,7 @@ export function Footer({ whatsapp }: { whatsapp: string }) {
         <div>
           <div className="flex items-center gap-3.5">
             <Image
-              src="/images/logo.png"
+              src="/icon-192.png"
               alt={`Logo ${SITE.name}`}
               width={56}
               height={56}

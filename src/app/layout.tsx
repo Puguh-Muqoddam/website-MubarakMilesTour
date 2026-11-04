@@ -87,9 +87,9 @@ export async function generateMetadata(): Promise<Metadata> {
       description: DESCRIPTION,
       images: [
         {
-          url: "/images/brosur/1.png",
+          url: "/images/og-image.jpg",
           width: 1200,
-          height: 900,
+          height: 630,
           alt: `Brosur Resmi ${SITE.name}`,
         },
         {
@@ -104,7 +104,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: TITLE,
       description: DESCRIPTION,
-      images: ["/images/brosur/1.png"],
+      images: ["/images/og-image.jpg"],
     },
     robots: {
       index: true,

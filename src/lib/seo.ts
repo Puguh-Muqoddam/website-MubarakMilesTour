@@ -26,7 +26,7 @@ export function buildTravelAgencyJsonLd(
     description: SITE.tagline,
     url: baseUrl,
     logo: `${baseUrl}/images/logo.png`,
-    image: `${baseUrl}/images/brosur/1.png`,
+    image: `${baseUrl}/images/og-image.jpg`,
     telephone: `+${SITE.contact.whatsappDefault62}`,
     email: SITE.contact.email,
     priceRange: "Rp1.399.000",

@@ -12,7 +12,7 @@ export default async function AdminLoginPage() {
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-16">
       <div className="flex items-center gap-3.5">
         <Image
-          src="/images/logo.png"
+          src="/icon-192.png"
           alt={`Logo ${SITE.name}`}
           width={56}
           height={56}

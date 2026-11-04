@@ -5,6 +5,12 @@ Tahap: 7 (Hardening Keamanan, SEO JSON-LD, Sitemap/Robots, & Panduan Deployment 
 Seluruh tahapan pembangunan Website Mubarak Miles Tour (Tahap 1 s.d. Tahap 7) telah selesai dikerjakan dan diverifikasi menggunakan TypeScript (`strict`), ESLint, Vitest, serta `next build`.
 
 ## Selesai
+- [x] 2026-11-05 — **Optimasi gambar & kecepatan muat halaman**:
+  - Brosur hero `public/images/brosur/{1,2}.webp` (1200px, ~76–90 KB; sebelumnya PNG 791 KB & 1,9 MB). PNG asli tetap disimpan.
+  - Carousel `Hero.tsx` hanya merender latar slide sebelumnya/aktif/berikutnya (sebelumnya 7 gambar dimuat sekaligus dengan `eager`).
+  - Logo di Navbar, Footer, admin, & cetak memakai `/icon-96.png` / `/icon-192.png` (14–46 KB) alih-alih `logo.png` 358 KB.
+  - Gambar OpenGraph/Twitter & JSON-LD baru `public/images/og-image.jpg` 1200×630 (154 KB) dengan dimensi metadata yang benar.
+  - `typecheck`, `lint`, 71 unit test, dan `next build` lolos.
 - [x] 2026-11-05 — **Perbaikan hasil audit keamanan menyeluruh (laporan di luar repo: `~/security-audit-skill/website-MubarakMilesTour/run-1/`)**:
   - `src/server/db/bookings.ts`: aturan H-14 s.d. +540 hari & tanggal tutup kini juga divalidasi pada `slot.departDate` (sebelumnya hanya pada tanggal kiriman klien) di dalam transaksi `FOR UPDATE`.
   - `src/server/db/admin.ts` + `src/app/actions/admin.ts`: pesanan `BATAL` hanya boleh dicatat `REFUND` (DP/pelunasan ditolak dengan `INVALID_STATUS`).
