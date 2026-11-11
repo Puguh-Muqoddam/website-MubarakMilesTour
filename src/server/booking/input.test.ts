@@ -173,11 +173,12 @@ describe("buildWhatsappMessage & buildWhatsappUrl", () => {
       participantCount: 40,
       elderlyCount: 12,
       wheelchairCount: 1,
+      wheelchairFee: 62_500,
       unitPrice: 1_399_000,
-      estimatedTotalPrice: 55_960_000,
-      estimatedDpAmount: 27_980_000,
+      estimatedTotalPrice: 56_022_500,
+      estimatedDpAmount: 28_012_000,
       picName: "Hj. Siti & Pengurus",
-      organizationName: "Muslimat NU Ranting Wonokromo",
+      organizationName: "Majelis Taklim Al-Hidayah Wonokromo",
       organizationTypeLabel: "Majelis Taklim",
       originCity: "Surabaya",
       originRegionLabel: "Surabaya Raya",
@@ -185,8 +186,9 @@ describe("buildWhatsappMessage & buildWhatsappUrl", () => {
     });
 
     expect(msg).toContain("Kode Penawaran: MMT-7K4P9X2A");
-    expect(msg).toContain("Muslimat NU Ranting Wonokromo");
+    expect(msg).toContain("Majelis Taklim Al-Hidayah Wonokromo");
     expect(msg).toContain("Lansia: 12 orang, Kursi Roda: 1 unit");
+    expect(msg).toContain("Tambahan Kursi Roda");
     expect(msg).toContain("MOU");
 
     const url = buildWhatsappUrl("6285847879784", msg);

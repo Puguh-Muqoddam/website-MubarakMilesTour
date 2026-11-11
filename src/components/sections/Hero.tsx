@@ -199,13 +199,13 @@ export function Hero() {
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-cream/90 sm:text-lg">
               Mitra perjalanan resmi untuk{" "}
               <strong className="font-semibold text-gold">
-                Majelis Taklim (Muslimat/Fatayat NU), Komunitas Pengajian, Pondok
-                Pesantren, dan Yayasan
+                Majelis Taklim, Komunitas Pengajian, Pondok Pesantren, dan
+                Yayasan
               </strong>{" "}
               di Surabaya Raya &amp; Jawa Timur. Kontrak satu harga{" "}
               <em>All-In Zero-Cash Hassle</em> dengan bimbingan Muthawwif
-              bersanad, armada bus resmi SPIONAM/BLUE, serta fasilitas kursi
-              roda &amp; oksigen portabel.
+              bersanad, armada bus resmi SPIONAM/BLUE, serta fasilitas oksigen
+              portabel &amp; opsi kursi roda lipat.
             </p>
 
             {/* Ringkasan Penawaran Utama */}

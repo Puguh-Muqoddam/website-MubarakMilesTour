@@ -53,7 +53,8 @@ npm run db:seed      # jalankan seed data idempoten ke database
 │   ├── schema.prisma          # Skema database PostgreSQL (Prisma 7, compiler small)
 │   ├── seed.ts                # Seed idempoten (2 paket, 2 slot, 12 destinasi, 6 FAQ)
 │   └── manual/
-│       └── 00-setup-database-baru.sql # Skrip SQL lengkap: DDL, CHECK, RLS Zero-Trust, & seed
+│       ├── 00-setup-database-baru.sql # Skrip SQL lengkap: DDL, CHECK, RLS Zero-Trust, & seed
+│       └── 01-update-kuota-dan-kursi-roda.sql # Migrasi kuota 1 bus, maks 45 jamaah, & constraint kursi roda Rp62.500
 ├── public/
 │   └── images/
 │       ├── logo.png           # Logo resmi Mubarak Miles Tour

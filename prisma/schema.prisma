@@ -81,7 +81,7 @@ model DepartureSlot {
   departDate           DateTime @db.Date
   returnDate           DateTime @db.Date
   label                String   @db.VarChar(100)
-  maxRombonganQuota    Int      @default(2) // jumlah maksimal rombongan bus pada tanggal ini
+  maxRombonganQuota    Int      @default(1) // jumlah maksimal rombongan bus pada tanggal ini
   bookedRombonganCount Int      @default(0) // jumlah rombongan aktif (selain BATAL)
   seatCapacityPerBus   Int      @default(40) // kapasitas ideal kursi per bus (PPBI §6.5)
   isClosed             Boolean  @default(false)
@@ -109,7 +109,7 @@ model GroupBooking {
   elderlyCount        Int              @default(0)
   wheelchairCount     Int              @default(0)
   unitPrice           Int // snapshot harga per jamaah saat pengajuan (rupiah)
-  estimatedTotalPrice Int // dihitung server: unitPrice * participantCount (rupiah)
+  estimatedTotalPrice Int // dihitung server: unitPrice * participantCount + wheelchairCount * 62500 (rupiah)
   estimatedDpAmount   Int // dihitung server: DP 50% dibulatkan ke ribuan (rupiah)
   picName             String           @db.VarChar(100)
   whatsapp            String           @db.VarChar(16) // format 62…

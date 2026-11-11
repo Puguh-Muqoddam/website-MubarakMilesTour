@@ -28,6 +28,7 @@ import {
   ORGANIZATION_TYPES,
   ORIGIN_REGION_LABELS,
   ORIGIN_REGIONS,
+  WHEELCHAIR_FEE_PER_UNIT,
 } from "@/server/booking/config";
 import { computeGroupContractPricing } from "@/server/booking/rules";
 import { formatDateId } from "@/server/booking/whatsapp";
@@ -117,7 +118,7 @@ export function BookingForm({
     IDEAL_BUS_CAPACITY,
   );
   const [elderlyCount, setElderlyCount] = useState<number>(10);
-  const [wheelchairCount, setWheelchairCount] = useState<number>(1);
+  const [wheelchairCount, setWheelchairCount] = useState<number>(0);
   const [organizationType, setOrganizationType] =
     useState<string>("MAJELIS_TAKLIM");
   const [originRegion, setOriginRegion] = useState<string>("SURABAYA_RAYA");
@@ -141,18 +142,22 @@ export function BookingForm({
       participantCount <= pkg.maxParticipants,
   );
 
-  const specialNeedsValid =
-    Number.isInteger(elderlyCount) &&
-    elderlyCount >= 0 &&
-    elderlyCount <= (Number.isNaN(participantCount) ? 0 : participantCount) &&
+  const wheelchairValid =
     Number.isInteger(wheelchairCount) &&
     wheelchairCount >= 0 &&
     wheelchairCount <= (Number.isNaN(participantCount) ? 0 : participantCount);
 
+  const specialNeedsValid =
+    Number.isInteger(elderlyCount) &&
+    elderlyCount >= 0 &&
+    elderlyCount <= (Number.isNaN(participantCount) ? 0 : participantCount) &&
+    wheelchairValid;
+
   const pricing = useMemo(() => {
     if (!pkg || !countValid) return null;
-    return computeGroupContractPricing(pkg, participantCount);
-  }, [pkg, countValid, participantCount]);
+    const safeWheelchair = wheelchairValid ? wheelchairCount : 0;
+    return computeGroupContractPricing(pkg, participantCount, safeWheelchair);
+  }, [pkg, countValid, participantCount, wheelchairValid, wheelchairCount]);
 
   const scheduleReady = pkg?.isCustomAllowed
     ? Boolean(customDepartDate)
@@ -273,6 +278,18 @@ export function BookingForm({
             </dd>
           </div>
 
+          {pricing && pricing.wheelchairFee > 0 && (
+            <div className="flex items-center justify-between gap-4">
+              <dt className="text-cream/75">
+                Tambahan Kursi Roda ({pricing.wheelchairCount}×{" "}
+                {formatRupiah(WHEELCHAIR_FEE_PER_UNIT)})
+              </dt>
+              <dd className="font-bold text-gold">
+                +{formatRupiah(pricing.wheelchairFee)}
+              </dd>
+            </div>
+          )}
+
           <div className="flex items-center justify-between gap-4">
             <dt className="text-cream/75">Estimasi Armada Bus</dt>
             <dd className="inline-flex items-center gap-1.5 font-bold text-gold">
@@ -328,7 +345,7 @@ export function BookingForm({
           </li>
           <li className="flex items-center gap-2">
             <Accessibility className="h-4 w-4 shrink-0 text-gold" />
-            <span>Termasuk kursi roda lipat &amp; 2 tabung oksigen Oxycan</span>
+            <span>Dilengkapi 2 tabung Oxycan (opsi kursi roda +Rp62.500/unit)</span>
           </li>
           <li className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 shrink-0 text-gold" />
@@ -509,9 +526,9 @@ export function BookingForm({
             3. Estimasi Jumlah Jamaah &amp; Fasilitas Ramah Lansia
           </h4>
           <p className="mt-0.5 text-xs text-muted">
-            Kapasitas ideal 1 bus pariwisata adalah 40 kursi. Mohon informasikan
-            estimasi jamaah lansia agar tim kami menyiapkan pendampingan, kursi
-            roda lipat, dan tabung oksigen Oxycan.
+            Kapasitas 1 bus pariwisata berkisar 20–45 jamaah (ideal 40 kursi).
+            Tersedia 2 tabung oksigen Oxycan, dan opsi tambahan kursi roda lipat
+            dikenakan Rp62.500/unit (normal 0).
           </p>
 
           <div className="mt-4 grid gap-4 sm:grid-cols-3">
@@ -526,7 +543,7 @@ export function BookingForm({
                 inputMode="numeric"
                 required
                 min={pkg?.minParticipants ?? 20}
-                max={pkg?.maxParticipants ?? 180}
+                max={pkg?.maxParticipants ?? 45}
                 value={Number.isNaN(participantCount) ? "" : participantCount}
                 onChange={(e) => {
                   const v = e.target.valueAsNumber;
@@ -561,7 +578,7 @@ export function BookingForm({
                 type="number"
                 inputMode="numeric"
                 min={0}
-                max={Number.isNaN(participantCount) ? 180 : participantCount}
+                max={Number.isNaN(participantCount) ? 45 : participantCount}
                 value={Number.isNaN(elderlyCount) ? "" : elderlyCount}
                 onChange={(e) => setElderlyCount(e.target.valueAsNumber)}
                 className={fieldCls}
@@ -589,14 +606,14 @@ export function BookingForm({
                 type="number"
                 inputMode="numeric"
                 min={0}
-                max={Number.isNaN(participantCount) ? 10 : participantCount}
+                max={Number.isNaN(participantCount) ? 45 : participantCount}
                 value={Number.isNaN(wheelchairCount) ? "" : wheelchairCount}
                 onChange={(e) => setWheelchairCount(e.target.valueAsNumber)}
                 className={fieldCls}
                 aria-invalid={Boolean(err("wheelchairCount"))}
               />
               <span className="mt-1 block text-[11px] text-muted">
-                Gratis dipinjamkan selama tur
+                +Rp62.500 / unit selama tur (normal: 0)
               </span>
               <FieldError
                 id={`${ids.wheelchair}-e`}
@@ -618,7 +635,7 @@ export function BookingForm({
               type="text"
               required
               maxLength={150}
-              placeholder="Contoh: Muslimat NU Ranting Wonokromo"
+              placeholder="Contoh: Majelis Taklim Al-Hidayah Wonokromo"
               className={fieldCls}
               aria-invalid={Boolean(err("organizationName"))}
             />

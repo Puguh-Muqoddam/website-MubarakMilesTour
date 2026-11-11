@@ -132,7 +132,7 @@ export function Footer({ whatsapp }: { whatsapp: string }) {
             <li>• Down Payment (DP) 50% maksimal H-30 keberangkatan</li>
             <li>• Pelunasan 50% maksimal H-14 keberangkatan</li>
             <li>• Armada resmi SPIONAM Kemenhub &amp; Lulus Uji BLUE</li>
-            <li>• Tersedia kursi roda lipat &amp; tabung oksigen Oxycan</li>
+            <li>• Tersedia 2 tabung oksigen Oxycan &amp; opsi kursi roda lipat</li>
           </ul>
         </div>
       </Container>

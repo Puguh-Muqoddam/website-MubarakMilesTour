@@ -230,9 +230,10 @@ export function Packages({
                         </ul>
                       ) : (
                         <p className="mt-2 rounded-xl border border-line bg-cream px-4 py-3 text-sm text-muted">
-                          Tanggal keberangkatan, titik penjemputan, dan jumlah
-                          armada bus ditentukan sepenuhnya oleh kesepakatan MOU
-                          pengurus majelis/instansi Anda (minimal H-14).
+                          Tanggal keberangkatan dan titik penjemputan ditentukan
+                          sepenuhnya oleh kesepakatan MOU pengurus
+                          majelis/instansi Anda (kuota 1 bus · 20–45 jamaah ·
+                          minimal H-14).
                         </p>
                       )}
                     </div>

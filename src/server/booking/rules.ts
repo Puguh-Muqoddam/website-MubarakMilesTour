@@ -1,8 +1,9 @@
 import {
   DP_RATIO,
-  IDEAL_BUS_CAPACITY,
+  MAX_BUS_CAPACITY,
   MAX_DAYS_AHEAD,
   MIN_DAYS_AHEAD,
+  WHEELCHAIR_FEE_PER_UNIT,
 } from "./config";
 import {
   addDays,
@@ -156,15 +157,23 @@ export function resolveUnitPrice(pkg: {
   return active;
 }
 
-/** Total kontrak rombongan dalam integer rupiah (`unitPrice * participantCount`). */
-export function computeTotal(unitPrice: number, participantCount: number): number {
+/** Total kontrak rombongan dalam integer rupiah (`unitPrice * participantCount + wheelchairCount * WHEELCHAIR_FEE_PER_UNIT`). */
+export function computeTotal(
+  unitPrice: number,
+  participantCount: number,
+  wheelchairCount = 0,
+): number {
   if (!Number.isSafeInteger(unitPrice) || unitPrice < 0) {
     throw new Error("Harga per jamaah tidak valid");
   }
   if (!Number.isSafeInteger(participantCount) || participantCount < 1) {
     throw new Error("Jumlah peserta tidak valid");
   }
-  const total = unitPrice * participantCount;
+  if (!Number.isSafeInteger(wheelchairCount) || wheelchairCount < 0) {
+    throw new Error("Jumlah kursi roda tidak valid");
+  }
+  const total =
+    unitPrice * participantCount + wheelchairCount * WHEELCHAIR_FEE_PER_UNIT;
   if (!Number.isSafeInteger(total)) {
     throw new Error("Total kontrak melebihi batas");
   }
@@ -186,28 +195,39 @@ export function computeDpAmount(totalPrice: number): number {
 
 export type GroupContractPricing = {
   unitPrice: number;
+  baseTotalPrice: number;
+  wheelchairCount: number;
+  wheelchairUnitFee: number;
+  wheelchairFee: number;
   estimatedTotalPrice: number;
   estimatedDpAmount: number;
   estimatedRemainingAmount: number;
   recommendedBusCount: number;
 };
 
-/** Kalkulasi lengkap estimasi kontrak rombongan B2B (Total All-In, DP 50%, Sisa Pelunasan, & Rekomendasi Bus). */
+/** Kalkulasi lengkap estimasi kontrak rombongan B2B (Total All-In, Tambahan Kursi Roda, DP 50%, Sisa Pelunasan, & Rekomendasi Bus). */
 export function computeGroupContractPricing(
   pkg: { priceNormalPerPax: number; pricePromoPerPax: number },
   participantCount: number,
+  wheelchairCount = 0,
 ): GroupContractPricing {
   const unitPrice = resolveUnitPrice(pkg);
-  const estimatedTotalPrice = computeTotal(unitPrice, participantCount);
+  const baseTotalPrice = computeTotal(unitPrice, participantCount, 0);
+  const wheelchairFee = computeTotal(0, 1, wheelchairCount);
+  const estimatedTotalPrice = baseTotalPrice + wheelchairFee;
   const estimatedDpAmount = computeDpAmount(estimatedTotalPrice);
   const estimatedRemainingAmount = estimatedTotalPrice - estimatedDpAmount;
   const recommendedBusCount = Math.max(
     1,
-    Math.ceil(participantCount / IDEAL_BUS_CAPACITY),
+    Math.ceil(participantCount / MAX_BUS_CAPACITY),
   );
 
   return {
     unitPrice,
+    baseTotalPrice,
+    wheelchairCount,
+    wheelchairUnitFee: WHEELCHAIR_FEE_PER_UNIT,
+    wheelchairFee,
     estimatedTotalPrice,
     estimatedDpAmount,
     estimatedRemainingAmount,

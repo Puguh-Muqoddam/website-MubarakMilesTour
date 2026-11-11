@@ -57,7 +57,7 @@ const STEPS = [
     title: "Briefing & Ramp Check Bus",
     timing: "H-7 s.d. H-1",
     description:
-      "Distribusi Ziarah Handbook, pengecekan kursi roda lipat & tabung Oxycan, serta inspeksi fisik kelaikan armada bus (SOP Ramp Check H-1).",
+      "Distribusi Ziarah Handbook, pengecekan tabung Oxycan & kursi roda tambahan (jika dipesan), serta inspeksi fisik kelayakan armada bus (SOP Ramp Check H-1).",
     icon: ClipboardCheck,
   },
   {

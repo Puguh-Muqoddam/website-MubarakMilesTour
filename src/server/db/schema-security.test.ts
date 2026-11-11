@@ -55,11 +55,14 @@ describe("Hardening SQL & Integritas Fixtures (Tahap 2)", () => {
     for (const pkg of FIXTURE_PACKAGES) {
       expect(pkg.pricePromoPerPax).toBeGreaterThan(0);
       expect(pkg.pricePromoPerPax).toBeLessThanOrEqual(pkg.priceNormalPerPax);
-      expect(pkg.minParticipants).toBeGreaterThanOrEqual(1);
-      expect(pkg.maxParticipants).toBeGreaterThanOrEqual(pkg.minParticipants);
+      expect(pkg.minParticipants).toBe(20);
+      expect(pkg.maxParticipants).toBe(45);
     }
 
     expect(FIXTURE_DEPARTURE_SLOTS.length).toBeGreaterThanOrEqual(1);
+    for (const slot of FIXTURE_DEPARTURE_SLOTS) {
+      expect(slot.maxRombonganQuota).toBe(1);
+    }
     expect(FIXTURE_DESTINATIONS).toHaveLength(12);
     expect(FIXTURE_FAQS.length).toBeGreaterThanOrEqual(5);
   });

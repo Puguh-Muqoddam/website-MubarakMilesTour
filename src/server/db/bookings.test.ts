@@ -183,23 +183,37 @@ describe("Simulasi konkurensi SELECT ... FOR UPDATE pada createGroupBooking", ()
     expect(res).toEqual({ ok: false, error: "SLOT_REQUIRED" });
   });
 
-  it("mengizinkan paket custom rombongan memilih tanggal keberangkatan tanpa slot terjadwal", () => {
+  it("mengizinkan paket custom rombongan memilih tanggal keberangkatan tanpa slot terjadwal (maks 45 jamaah)", () => {
     const res = createFixtureGroupBooking(
       {
         ...baseInput,
         packageId: "pkg_custom_rombongan",
         departureSlotId: undefined,
         requestedDepartDate: "2027-03-15",
-        participantCount: 80,
+        participantCount: 45,
+        wheelchairCount: 1,
       },
       NOW,
     );
     expect(res.ok).toBe(true);
     if (res.ok) {
-      expect(res.recommendedBusCount).toBe(2);
-      expect(res.summary.estimatedTotalPrice).toBe(80 * 1_399_000);
-      expect(res.summary.estimatedDpAmount).toBe(55_960_000);
+      expect(res.recommendedBusCount).toBe(1);
+      expect(res.summary.wheelchairFee).toBe(62_500);
+      expect(res.summary.estimatedTotalPrice).toBe(45 * 1_399_000 + 62_500);
+      expect(res.summary.estimatedDpAmount).toBe(31_509_000);
     }
+
+    const overMax = createFixtureGroupBooking(
+      {
+        ...baseInput,
+        packageId: "pkg_custom_rombongan",
+        departureSlotId: undefined,
+        requestedDepartDate: "2027-03-15",
+        participantCount: 46,
+      },
+      NOW,
+    );
+    expect(overMax).toEqual({ ok: false, error: "PARTICIPANTS_OUT_OF_RANGE" });
   });
 });
 

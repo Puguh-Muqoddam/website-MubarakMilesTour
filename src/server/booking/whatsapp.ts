@@ -1,4 +1,5 @@
 import { formatBookingCodeDisplay } from "./code";
+import { WHEELCHAIR_FEE_PER_UNIT } from "./config";
 
 const rupiahFormatter = new Intl.NumberFormat("id-ID", {
   style: "currency",
@@ -29,6 +30,7 @@ export type GroupBookingWhatsappSummary = {
   participantCount: number;
   elderlyCount: number;
   wheelchairCount: number;
+  wheelchairFee?: number;
   unitPrice: number;
   estimatedTotalPrice: number;
   estimatedDpAmount: number;
@@ -49,6 +51,8 @@ export function buildWhatsappMessage(s: GroupBookingWhatsappSummary): string {
   const scheduleInfo = s.scheduleLabel
     ? `${s.scheduleLabel} (${formatDateId(s.requestedDepartDate)})`
     : `Jadwal Custom — ${formatDateId(s.requestedDepartDate)}`;
+  const wheelchairFee =
+    s.wheelchairFee ?? s.wheelchairCount * WHEELCHAIR_FEE_PER_UNIT;
 
   const lines: string[] = [
     "Assalamu'alaikum Tim Mubarak Miles Tour, saya ingin mengajukan Permintaan Penawaran & Booking Jadwal Rombongan.",
@@ -61,9 +65,18 @@ export function buildWhatsappMessage(s: GroupBookingWhatsappSummary): string {
     `Jadwal Keberangkatan: ${scheduleInfo}`,
     `Jumlah Jamaah: ${s.participantCount} orang (Lansia: ${s.elderlyCount} orang, Kursi Roda: ${s.wheelchairCount} unit)`,
     `Harga Satuan All-In: ${formatRupiah(s.unitPrice)} / jamaah`,
+  ];
+
+  if (s.wheelchairCount > 0) {
+    lines.push(
+      `Tambahan Kursi Roda (${s.wheelchairCount} × ${formatRupiah(WHEELCHAIR_FEE_PER_UNIT)}): ${formatRupiah(wheelchairFee)}`,
+    );
+  }
+
+  lines.push(
     `Estimasi Total Kontrak: ${formatRupiah(s.estimatedTotalPrice)}`,
     `Estimasi DP 50% (H-30): ${formatRupiah(s.estimatedDpAmount)}`,
-  ];
+  );
 
   if (s.notes) {
     lines.push(`Catatan Tambahan: ${s.notes}`);

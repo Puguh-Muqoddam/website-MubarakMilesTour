@@ -10,9 +10,9 @@ import { AnimateIn } from "@/components/ui/AnimateIn";
 
 const COMMUNITY_SEGMENTS = [
   {
-    title: "Majelis Taklim & Muslimat / Fatayat NU",
+    title: "Majelis Taklim",
     description:
-      "Program ziarah tahunan atau triwulanan jamaah ibu-ibu pengajian dengan jadwal istirahat terukur, hotel bintang 3, dan pendampingan ramah lansia.",
+      "Program ziarah tahunan atau triwulanan jamaah pengajian dengan jadwal istirahat terukur, hotel bintang 3, dan pendampingan ramah lansia.",
     icon: Users,
     badge: "Prioritas Utama",
   },
@@ -21,7 +21,7 @@ const COMMUNITY_SEGMENTS = [
     description:
       "Perjalanan religi jamaah masjid, paguyuban, atau komunitas warga dengan sistem kontrak satu pintu tanpa beban koordinasi teknis terpisah.",
     icon: Building2,
-    badge: "1–3 Bus Rombongan",
+    badge: "1 Bus Rombongan",
   },
   {
     title: "Pondok Pesantren & Majelis Dzikir",
@@ -65,7 +65,7 @@ export function About() {
                 Banyak pengurus Majelis Taklim dan koordinator rombongan
                 menghadapi tantangan dalam merencanakan ziarah Wali Songo secara
                 mandiri: kepastian transparansi anggaran perjalanan, verifikasi
-                kelaikan armada transportasi, hingga kenyamanan jamaah sepuh
+                kelayakan armada transportasi, hingga kenyamanan jamaah sepuh
                 yang memerlukan akomodasi hotel dan waktu istirahat yang memadai.
               </p>
               <p className="mt-4">
@@ -78,18 +78,6 @@ export function About() {
                 lansia telah dikelola secara profesional.
               </p>
             </SectionHeading>
-
-            <div className="mt-8 rounded-2xl border border-line bg-sand p-6">
-              <p className="font-serif text-xl font-bold text-ink italic">
-                &ldquo;Kami berkomitmen memastikan para pengurus dan koordinator
-                dapat beribadah dengan khusyuk bersama jamaah, sementara seluruh
-                manajemen operasional dan logistik ditangani secara
-                profesional.&rdquo;
-              </p>
-              <p className="mt-2 text-xs font-bold tracking-wider text-gold-dark uppercase">
-                — Tim Manajemen Mubarak Miles Tour, Surabaya
-              </p>
-            </div>
           </AnimateIn>
 
           <AnimateIn delay={150}>

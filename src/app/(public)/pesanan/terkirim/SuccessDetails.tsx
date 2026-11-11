@@ -12,6 +12,7 @@ import { BOOKING_STORAGE_KEY } from "@/components/booking/BookingForm";
 import { ButtonLink } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SITE, formatRupiah } from "@/lib/site";
+import { WHEELCHAIR_FEE_PER_UNIT } from "@/server/booking/config";
 import { formatBookingCodeDisplay } from "@/server/booking/code";
 import { formatDateId } from "@/server/booking/whatsapp";
 
@@ -135,6 +136,14 @@ export function SuccessDetails({
                   "Harga Satuan All-In",
                   `${formatRupiah(data.summary.unitPrice)} / jamaah`,
                 ],
+                ...(data.summary.wheelchairCount > 0
+                  ? [
+                      [
+                        "Tambahan Kursi Roda",
+                        `${data.summary.wheelchairCount} unit × ${formatRupiah(WHEELCHAIR_FEE_PER_UNIT)} = ${formatRupiah(data.summary.wheelchairFee ?? data.summary.wheelchairCount * WHEELCHAIR_FEE_PER_UNIT)}`,
+                      ],
+                    ]
+                  : []),
               ].map(([k, v]) => (
                 <div
                   key={k}

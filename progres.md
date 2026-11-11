@@ -1,10 +1,16 @@
 # Progres — Website Mubarak Miles Tour
 
 ## Status saat ini
-Tahap: 7 (Hardening Keamanan, SEO JSON-LD, Sitemap/Robots, & Panduan Deployment Cloudflare Workers) — **SELESAI (Tahap 1 s.d. Tahap 7 Tuntas)** | Terakhir diperbarui: 2026-10-20
+Tahap: 7 (Hardening Keamanan, SEO JSON-LD, Sitemap/Robots, & Panduan Deployment Cloudflare Workers) — **SELESAI (Tahap 1 s.d. Tahap 7 Tuntas)** | Terakhir diperbarui: 2026-11-11
 Seluruh tahapan pembangunan Website Mubarak Miles Tour (Tahap 1 s.d. Tahap 7) telah selesai dikerjakan dan diverifikasi menggunakan TypeScript (`strict`), ESLint, Vitest, serta `next build`.
 
 ## Selesai
+- [x] 2026-11-11 — **Penyesuaian Bisnis, Kuota 1 Bus (20–45 Jamaah), Opsi Kursi Roda Rp62.500, & Pembersihan Copywriting**:
+  - Menyeragamkan penamaan segmen jamaah menjadi `Majelis Taklim` tanpa penyebutan `Muslimat/Fatayat NU` (`Hero.tsx`, `About.tsx`, `config.ts`, `BookingForm.tsx`).
+  - Menghapus bagian yang ditandai untuk dihilangkan (kotak kutipan manajemen di `About.tsx`, frasa `profil singkat Wali Songo` di `WhyUs.tsx`, serta `(Muslimat/Fatayat NU)` di `Hero.tsx`), serta memperbaiki ejaan `kelaikan` menjadi `kelayakan` (`About.tsx`, `ProcessFlow.tsx`).
+  - Mengubah kuota armada per slot menjadi **1 bus** (`maxRombonganQuota: 1`) serta menyamakan batas peserta paket Reguler dan Custom menjadi **20–45 jamaah** (`MAX_BUS_CAPACITY = 45` agar 20–45 jamaah selalu terhitung 1 bus di `BookingForm.tsx`, `rules.ts`, `Packages.tsx`, `cetak/page.tsx`, `fixtures.ts`, dan `schema.prisma`).
+  - Mengubah opsi kursi roda lipat menjadi **default 0** dengan biaya tambahan **Rp62.500/unit** (`WHEELCHAIR_FEE_PER_UNIT = 62_500`) di `BookingForm.tsx`, `rules.ts`, `bookings.ts`, `whatsapp.ts`, `SuccessDetails.tsx`, `admin/(panel)/page.tsx`, dan `cetak/page.tsx`.
+  - Memperbarui `prisma/manual/00-setup-database-baru.sql` dan menambahkan skrip migrasi inkremental `prisma/manual/01-update-kuota-dan-kursi-roda.sql` (pembaruan kuota slot, batas peserta paket, `GroupBooking_price_check`, dan FAQ terkait).
 - [x] 2026-11-05 — **Optimasi gambar & kecepatan muat halaman**:
   - Brosur hero `public/images/brosur/{1,2}.webp` (1200px, ~76–90 KB; sebelumnya PNG 791 KB & 1,9 MB). PNG asli tetap disimpan.
   - Carousel `Hero.tsx` hanya merender latar slide sebelumnya/aktif/berikutnya (sebelumnya 7 gambar dimuat sekaligus dengan `eager`).
@@ -61,18 +67,18 @@ Seluruh tahapan pembangunan Website Mubarak Miles Tour (Tahap 1 s.d. Tahap 7) te
 - Tidak ada (seluruh 7 tahap implementasi & deployment produksi telah selesai).
 
 ## Berikutnya
-- Opsional: Menghubungkan Custom Domain di Cloudflare Dashboard jika sudah memiliki domain khusus.
+- Eksekusi `prisma/manual/01-update-kuota-dan-kursi-roda.sql` di Supabase SQL Editor agar database produksi sinkron dengan aturan kuota 1 bus, rentang 20–45 jamaah untuk semua paket, dan opsi kursi roda Rp62.500/unit.
 
 ## Keputusan penting
+- 2026-11-11 — Kuota setiap slot jadwal keberangkatan ditetapkan **1 bus** (`maxRombonganQuota: 1`), rentang jamaah untuk paket Reguler maupun Custom disamakan **20–45 jamaah**, dan kursi roda lipat bersifat opsional (default `0`, biaya tambahan Rp62.500/unit).
 - 2026-10-20 — Nama resmi ditetapkan **Mubarak Miles Tour** dengan model konversi 100% **B2B Rombongan / Komunitas** (harga Rp1.399.000/jamaah adalah patokan per kepala dalam kontrak rombongan ±40 jamaah/bus).
 - 2026-10-20 — Arsitektur mengikuti `brave-franklin`: Next.js 16 + Tailwind v4 + Cloudflare Workers (OpenNext) + Supabase PostgreSQL via Hyperdrive (Session Pooler port 5432) + Prisma 7 (`queryCompiler = "small"`), tanpa GCP.
 
 ## Menunggu dari klien / belum jelas (`TODO(klien)`)
 - Daftar lengkap ke-12 titik destinasi ziarah & urutan rundown jam per hari (Hari 1–3).
-- Kuota maksimal jumlah bus per slot tanggal keberangkatan (asumsi awal: 2 rombongan bus per slot jadwal).
 - Nomor rekening bank syariah / QRIS resmi untuk halaman cetak penawaran/invoice.
 - File logo vektor/PNG transparan resolusi tinggi.
 
 ## Masalah diketahui
-- Dugaan (perlu validasi pemilik): permintaan anonim langsung memakai kuota bus slot (default 2) sampai admin mengubahnya ke BATAL. Perlu dicek mode Turnstile, aturan WAF/rate-limit Cloudflare, dan praktik peninjauan pesanan MENUNGGU_PENAWARAN. Keputusan bisnis: reservasi kuota saat MOU, TTL, atau batas per slot/kontak.
+- Dugaan (perlu validasi pemilik): permintaan anonim langsung memakai kuota bus slot (default 1) sampai admin mengubahnya ke BATAL. Perlu dicek mode Turnstile, aturan WAF/rate-limit Cloudflare, dan praktik peninjauan pesanan MENUNGGU_PENAWARAN. Keputusan bisnis: reservasi kuota saat MOU, TTL, atau batas per slot/kontak.
 - CSP masih `script-src 'unsafe-inline'` (nonce butuh middleware/proxy, sedangkan AGENTS.md melarang `middleware.ts`).

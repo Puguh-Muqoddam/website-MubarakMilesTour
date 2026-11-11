@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS "DepartureSlot" (
     "departDate" DATE NOT NULL,
     "returnDate" DATE NOT NULL,
     "label" VARCHAR(100) NOT NULL,
-    "maxRombonganQuota" INTEGER NOT NULL DEFAULT 2,
+    "maxRombonganQuota" INTEGER NOT NULL DEFAULT 1,
     "bookedRombonganCount" INTEGER NOT NULL DEFAULT 0,
     "seatCapacityPerBus" INTEGER NOT NULL DEFAULT 40,
     "isClosed" BOOLEAN NOT NULL DEFAULT false,
@@ -242,7 +242,7 @@ ALTER TABLE "GroupBooking" ADD CONSTRAINT "GroupBooking_participants_check"
 
 ALTER TABLE "GroupBooking" DROP CONSTRAINT IF EXISTS "GroupBooking_price_check";
 ALTER TABLE "GroupBooking" ADD CONSTRAINT "GroupBooking_price_check"
-  CHECK ("unitPrice" >= 0 AND "estimatedTotalPrice" = "unitPrice" * "participantCount" AND "estimatedDpAmount" >= 0 AND "estimatedDpAmount" <= "estimatedTotalPrice");
+  CHECK ("unitPrice" >= 0 AND "estimatedTotalPrice" = "unitPrice" * "participantCount" + "wheelchairCount" * 62500 AND "estimatedDpAmount" >= 0 AND "estimatedDpAmount" <= "estimatedTotalPrice");
 
 ALTER TABLE "PaymentLog" DROP CONSTRAINT IF EXISTS "PaymentLog_amount_check";
 ALTER TABLE "PaymentLog" ADD CONSTRAINT "PaymentLog_amount_check"
@@ -285,7 +285,7 @@ INSERT INTO "Package" (
   3, 2, 12,
   1499000, 1399000, 20, 45,
   ARRAY['Makam Walisongo','Masjid Agung Jawa Tengah','Kota Lama Semarang','Masjid Agung Demak'],
-  ARRAY['Hotel Bintang 3 (2 Malam)','Konsumsi Prasmanan Halal 3x Sehari','Armada Bus AC Resmi SPIONAM & Lulus Uji BLUE','Pendampingan Muthawwif Profesional Bersanad','Travel Documentation (Foto & Video Rombongan)','Ziarah Handbook Cetak & Digital','Asuransi Perjalanan Mikro Syariah','Fasilitas Ramah Lansia (Kursi Roda Lipat & Tabung Oxycan)'],
+  ARRAY['Hotel Bintang 3 (2 Malam)','Konsumsi Prasmanan Halal 3x Sehari','Armada Bus AC Resmi SPIONAM & Lulus Uji BLUE','Pendampingan Muthawwif Profesional Bersanad','Travel Documentation (Foto & Video Rombongan)','Ziarah Handbook Cetak & Digital','Asuransi Perjalanan Mikro Syariah','Fasilitas Ramah Lansia (Tabung Oxycan & Opsi Kursi Roda)'],
   ARRAY['Lasnur Pallace Hotel Tegal (Bintang 3)','De La Charis Hotel Tuban (Bintang 3)'],
   false, 1, now()
 ),
@@ -295,9 +295,9 @@ INSERT INTO "Package" (
   'Paket Custom Rombongan Majelis & Instansi',
   'Fleksibilitas penuh penentuan tanggal keberangkatan, titik penjemputan di Jawa Timur, serta penyesuaian titik destinasi ziarah sesuai kesepakatan MOU komunitas atau lembaga Anda.',
   3, 2, 12,
-  1499000, 1399000, 20, 120,
-  ARRAY['Jadwal Keberangkatan Bebas Pilih','Titik Jemput Langsung di Lokasi Komunitas','Rute & Destinasi Fleksibel Sesuai MOU','Bisa Lebih dari 1 Armada Bus'],
-  ARRAY['Hotel Bintang 3 Pilihan','Konsumsi Halal 3x Sehari Ramah Lansia','Armada Bus AC Resmi SPIONAM & Ramp Check H-1','Muthawwif Profesional & Ziarah Handbook','Dokumentasi Eksklusif & LPJ Kegiatan','Asuransi Perjalanan Syariah','Kursi Roda Lipat & Oksigen Portabel (Oxycan)'],
+  1499000, 1399000, 20, 45,
+  ARRAY['Jadwal Keberangkatan Bebas Pilih','Titik Jemput Langsung di Lokasi Komunitas','Rute & Destinasi Fleksibel Sesuai MOU','Eksklusif 1 Bus Rombongan (20–45 Jamaah)'],
+  ARRAY['Hotel Bintang 3 Pilihan','Konsumsi Halal 3x Sehari Ramah Lansia','Armada Bus AC Resmi SPIONAM & Ramp Check H-1','Muthawwif Profesional & Ziarah Handbook','Dokumentasi Eksklusif & LPJ Kegiatan','Asuransi Perjalanan Syariah','Oksigen Portabel (Oxycan) & Opsi Kursi Roda'],
   ARRAY['Lasnur Pallace Hotel Tegal / Setara','De La Charis Hotel Tuban / Setara'],
   true, 2, now()
 )
@@ -307,8 +307,8 @@ INSERT INTO "DepartureSlot" (
   "id","packageId","departDate","returnDate","label",
   "maxRombonganQuota","bookedRombonganCount","seatCapacityPerBus","sortOrder","updatedAt"
 ) VALUES
-('slot_2027_02_01','pkg_walisongo_3h2m','2027-02-01','2027-02-03','Gelombang Perdana: 1–3 Februari 2027',2,0,40,1,now()),
-('slot_2027_02_15','pkg_walisongo_3h2m','2027-02-15','2027-02-17','Gelombang Kedua: 15–17 Februari 2027',2,0,40,2,now())
+('slot_2027_02_01','pkg_walisongo_3h2m','2027-02-01','2027-02-03','Gelombang Perdana: 1–3 Februari 2027',1,0,40,1,now()),
+('slot_2027_02_15','pkg_walisongo_3h2m','2027-02-15','2027-02-17','Gelombang Kedua: 15–17 Februari 2027',1,0,40,2,now())
 ON CONFLICT ("id") DO NOTHING;
 
 INSERT INTO "Destination" ("id","slug","name","city","category","description","lat","lng","imageUrl","sortOrder","updatedAt") VALUES
@@ -328,9 +328,9 @@ ON CONFLICT ("id") DO NOTHING;
 
 INSERT INTO "Faq" ("id","question","answer","sortOrder","updatedAt") VALUES
 ('faq_all_in','Apa yang dimaksud dengan Paket All-In Zero-Cash Hassle?','Seluruh pos pengeluaran selama perjalanan (bus pariwisata AC resmi, hotel bintang 3 selama 2 malam, makan prasmanan halal 3x sehari, retribusi masuk makam, infaq resmi, shuttle lokal, tol, parkir, hingga tips kru) sudah tercakup dalam satu harga kontrak di awal. Jamaah dan pengurus majelis tidak lagi dibebani biaya operasional tambahan di perjalanan.',1,now()),
-('faq_lansia','Fasilitas apa saja yang disiapkan khusus untuk jamaah lansia?','Kami menyediakan 1 unit kursi roda lipat (atau sesuai kebutuhan rombongan), 2 tabung oksigen portabel (Oxycan), kotak P3K lengkap, menu konsumsi bergizi yang ramah jamaah lansia, serta pemilihan titik transit dan hotel bintang 3 dengan akses yang ramah lansia.',2,now()),
+('faq_lansia','Fasilitas apa saja yang disiapkan khusus untuk jamaah lansia?','Kami menyediakan 2 tabung oksigen portabel (Oxycan), kotak P3K lengkap, menu konsumsi bergizi yang ramah jamaah lansia, serta pemilihan titik transit dan hotel bintang 3 dengan akses yang ramah lansia. Apabila rombongan membutuhkan kursi roda lipat tambahan, tersedia opsi tambahan sewa Rp62.500/unit selama perjalanan.',2,now()),
 ('faq_mou_dp','Bagaimana alur pemesanan dan pembayaran untuk rombongan Majelis Taklim?','Setelah mengisi form Permintaan Penawaran di website, tim kami akan menindaklanjuti via WhatsApp untuk penyusunan MOU di atas materai. Pembayaran dilakukan 2 tahap: Uang Muka (DP) minimal 50% paling lambat H-30 sebelum keberangkatan, dan pelunasan 50% paling lambat H-14 sebelum keberangkatan.',3,now()),
-('faq_kapasitas','Berapa jumlah jamaah dalam satu rombongan keberangkatan?','Kapasitas ideal untuk 1 bus pariwisata adalah 40 jamaah (rentang pemesanan 20–45 jamaah per bus). Jika komunitas Anda berjumlah lebih dari 45 jamaah, kami dapat menyiapkan lebih dari 1 unit armada bus.',4,now()),
+('faq_kapasitas','Berapa jumlah jamaah dalam satu rombongan keberangkatan?','Setiap keberangkatan dialokasikan untuk 1 armada bus pariwisata dengan kapasitas ideal 40 jamaah (rentang pemesanan minimal 20 dan maksimal 45 jamaah).',4,now()),
 ('faq_keamanan_bus','Bagaimana standar keamanan armada bus yang digunakan?','Mubarak Miles Tour hanya bermitra dengan Perusahaan Otobus (PO) resmi yang terdaftar aktif di portal SPIONAM Kementerian Perhubungan dan memiliki Bukti Lulus Uji Elektronik (BLUE) aktif. Selain itu, tim operasional kami wajib melakukan Ramp Check fisik H-1 sebelum keberangkatan.',5,now()),
 ('faq_custom','Apakah tanggal keberangkatan dan titik penjemputan bisa menyesuaikan majelis kami?','Bisa. Selain jadwal reguler (seperti 1–3 Februari 2027), Anda dapat memilih Paket Custom Rombongan untuk menentukan tanggal keberangkatan sendiri serta titik penjemputan langsung di lokasi majelis/komunitas di Surabaya Raya maupun Jawa Timur.',6,now())
 ON CONFLICT ("id") DO NOTHING;

@@ -5,7 +5,7 @@ import { formatRupiah, SITE } from "@/lib/site";
 import { requireAdminPage } from "@/server/auth/admin";
 import { formatBookingCodeDisplay } from "@/server/booking/code";
 import {
-  IDEAL_BUS_CAPACITY,
+  MAX_BUS_CAPACITY,
   ORGANIZATION_TYPE_LABELS,
   ORIGIN_REGION_LABELS,
   PAYMENT_TYPE_LABELS,
@@ -37,7 +37,11 @@ export default async function PrintContractInvoicePage({
   const deadlines = computeContractDeadlines(departStr, createdStr);
   const recommendedBuses = Math.max(
     1,
-    Math.ceil(booking.participantCount / IDEAL_BUS_CAPACITY),
+    Math.ceil(booking.participantCount / MAX_BUS_CAPACITY),
+  );
+  const wheelchairFee = Math.max(
+    0,
+    booking.estimatedTotalPrice - booking.unitPrice * booking.participantCount,
   );
 
   const totalPaid = booking.paymentLogs.reduce((acc, log) => {
@@ -216,7 +220,11 @@ export default async function PrintContractInvoicePage({
             <div className="rounded-lg border border-line bg-white p-3">
               <p className="text-xs text-muted">
                 Total Kontrak ({booking.participantCount} ×{" "}
-                {formatRupiah(booking.unitPrice)})
+                {formatRupiah(booking.unitPrice)}
+                {wheelchairFee > 0
+                  ? ` + ${booking.wheelchairCount} Kursi Roda`
+                  : ""}
+                )
               </p>
               <p className="mt-1 text-lg font-extrabold text-ink">
                 {formatRupiah(booking.estimatedTotalPrice)}

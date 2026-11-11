@@ -92,7 +92,11 @@ export async function createGroupBooking(
   });
   if (!paxRule.ok) return paxRule;
 
-  const pricing = computeGroupContractPricing(pkg, input.participantCount);
+  const pricing = computeGroupContractPricing(
+    pkg,
+    input.participantCount,
+    input.wheelchairCount,
+  );
 
   for (let attempt = 0; attempt < 3; attempt++) {
     const code = generateBookingCode();
@@ -205,6 +209,7 @@ export async function createGroupBooking(
           participantCount: input.participantCount,
           elderlyCount: input.elderlyCount,
           wheelchairCount: input.wheelchairCount,
+          wheelchairFee: pricing.wheelchairFee,
           unitPrice: pricing.unitPrice,
           estimatedTotalPrice: pricing.estimatedTotalPrice,
           estimatedDpAmount: pricing.estimatedDpAmount,
@@ -283,7 +288,11 @@ export function createFixtureGroupBooking(
   });
   if (!paxRule.ok) return paxRule;
 
-  const pricing = computeGroupContractPricing(pkg, input.participantCount);
+  const pricing = computeGroupContractPricing(
+    pkg,
+    input.participantCount,
+    input.wheelchairCount,
+  );
   const deadlines = computeContractDeadlines(
     effectiveDepartDateStr,
     todayInJakarta(now),
@@ -300,6 +309,7 @@ export function createFixtureGroupBooking(
       participantCount: input.participantCount,
       elderlyCount: input.elderlyCount,
       wheelchairCount: input.wheelchairCount,
+      wheelchairFee: pricing.wheelchairFee,
       unitPrice: pricing.unitPrice,
       estimatedTotalPrice: pricing.estimatedTotalPrice,
       estimatedDpAmount: pricing.estimatedDpAmount,

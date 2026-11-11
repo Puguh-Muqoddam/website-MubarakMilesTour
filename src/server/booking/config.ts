@@ -20,6 +20,8 @@ export const FULL_PAYMENT_DEADLINE_DAYS_BEFORE = 14;
 
 export const DP_RATIO = 0.5; // DP 50%
 export const IDEAL_BUS_CAPACITY = 40; // Kapasitas ideal 1 bus pariwisata (PPBI §6.5)
+export const MAX_BUS_CAPACITY = 45; // Kapasitas maksimal 1 bus pariwisata (20–45 jamaah)
+export const WHEELCHAIR_FEE_PER_UNIT = 62_500; // Biaya tambahan opsional kursi roda lipat Rp62.500/unit
 
 export const ORGANIZATION_TYPES = [
   "MAJELIS_TAKLIM",
@@ -31,7 +33,7 @@ export const ORGANIZATION_TYPES = [
 ] as const satisfies readonly OrganizationType[];
 
 export const ORGANIZATION_TYPE_LABELS: Record<OrganizationType, string> = {
-  MAJELIS_TAKLIM: "Majelis Taklim (Muslimat / Fatayat / Pengajian)",
+  MAJELIS_TAKLIM: "Majelis Taklim / Pengajian",
   KOMUNITAS: "Komunitas / Paguyuban Warga",
   PESANTREN: "Pondok Pesantren",
   YAYASAN: "Yayasan Pendidikan / Sosial Islam",

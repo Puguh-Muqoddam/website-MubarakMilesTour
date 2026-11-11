@@ -46,7 +46,7 @@ const BROCHURE_FEATURES = [
     title: "Ziarah Handbook",
     subtitle: "Panduan Doa & Adab Ziarah",
     description:
-      "Buku saku panduan bacaan dzikir, tahlil, dan profil singkat Wali Songo untuk memudahkan jamaah mengikuti rangkaian ibadah.",
+      "Buku saku panduan bacaan dzikir dan tahlil untuk memudahkan jamaah mengikuti rangkaian ibadah.",
     icon: BookOpenCheck,
   },
   {
@@ -166,14 +166,14 @@ export function WhyUs() {
                   Mayoritas jamaah Majelis Taklim berusia di atas 50 tahun.
                   Setiap bus kami lengkapi dengan{" "}
                   <strong className="font-semibold text-cream">
-                    1 unit kursi roda lipat
-                  </strong>{" "}
-                  (sesuai kebutuhan rombongan),{" "}
-                  <strong className="font-semibold text-cream">
                     2 tabung oksigen portabel (Oxycan)
                   </strong>
-                  , kotak P3K lengkap, serta pemilihan titik transit dengan
-                  toilet bersih dan ramah lansia.
+                  , kotak P3K lengkap, titik transit dengan toilet bersih ramah
+                  lansia, serta{" "}
+                  <strong className="font-semibold text-cream">
+                    opsi tambahan kursi roda lipat
+                  </strong>{" "}
+                  (Rp62.500/unit sesuai kebutuhan rombongan).
                 </p>
               </div>
             </div>

@@ -35,7 +35,7 @@ export const FIXTURE_PACKAGES: PublicPackage[] = [
       "Travel Documentation (Foto & Video Rombongan)",
       "Ziarah Handbook Cetak & Digital",
       "Asuransi Perjalanan Mikro Syariah",
-      "Fasilitas Ramah Lansia (Kursi Roda Lipat & Tabung Oxycan)",
+      "Fasilitas Ramah Lansia (Tabung Oxycan & Opsi Kursi Roda)",
     ],
     hotels: [
       "Lasnur Pallace Hotel Tegal (Bintang 3)",
@@ -55,12 +55,12 @@ export const FIXTURE_PACKAGES: PublicPackage[] = [
     priceNormalPerPax: 1499000,
     pricePromoPerPax: 1399000,
     minParticipants: 20,
-    maxParticipants: 120,
+    maxParticipants: 45,
     highlights: [
       "Jadwal Keberangkatan Bebas Pilih",
       "Titik Jemput Langsung di Lokasi Komunitas",
       "Rute & Destinasi Fleksibel Sesuai MOU",
-      "Bisa Lebih dari 1 Armada Bus",
+      "Eksklusif 1 Bus Rombongan (20–45 Jamaah)",
     ],
     facilities: [
       "Hotel Bintang 3 Pilihan",
@@ -69,7 +69,7 @@ export const FIXTURE_PACKAGES: PublicPackage[] = [
       "Muthawwif Profesional & Ziarah Handbook",
       "Dokumentasi Eksklusif & LPJ Kegiatan",
       "Asuransi Perjalanan Syariah",
-      "Kursi Roda Lipat & Oksigen Portabel (Oxycan)",
+      "Oksigen Portabel (Oxycan) & Opsi Kursi Roda",
     ],
     hotels: [
       "Lasnur Pallace Hotel Tegal / Setara",
@@ -86,9 +86,9 @@ export const FIXTURE_DEPARTURE_SLOTS: PublicDepartureSlot[] = [
     departDate: "2027-02-01",
     returnDate: "2027-02-03",
     label: "Gelombang Perdana: 1–3 Februari 2027",
-    maxRombonganQuota: 2,
+    maxRombonganQuota: 1,
     bookedRombonganCount: 0,
-    remainingRombonganQuota: 2,
+    remainingRombonganQuota: 1,
     seatCapacityPerBus: 40,
     isClosed: false,
     closedReason: null,
@@ -99,9 +99,9 @@ export const FIXTURE_DEPARTURE_SLOTS: PublicDepartureSlot[] = [
     departDate: "2027-02-15",
     returnDate: "2027-02-17",
     label: "Gelombang Kedua: 15–17 Februari 2027",
-    maxRombonganQuota: 2,
+    maxRombonganQuota: 1,
     bookedRombonganCount: 0,
-    remainingRombonganQuota: 2,
+    remainingRombonganQuota: 1,
     seatCapacityPerBus: 40,
     isClosed: false,
     closedReason: null,
@@ -266,7 +266,7 @@ export const FIXTURE_FAQS: PublicFaq[] = [
     id: "faq_lansia",
     question: "Fasilitas apa saja yang disiapkan khusus untuk jamaah lansia?",
     answer:
-      "Kami menyediakan 1 unit kursi roda lipat (atau sesuai kebutuhan rombongan), 2 tabung oksigen portabel (Oxycan), kotak P3K lengkap, menu konsumsi bergizi yang ramah jamaah lansia, serta pemilihan titik transit dan hotel bintang 3 dengan akses yang ramah lansia.",
+      "Kami menyediakan 2 tabung oksigen portabel (Oxycan), kotak P3K lengkap, menu konsumsi bergizi yang ramah jamaah lansia, serta pemilihan titik transit dan hotel bintang 3 dengan akses yang ramah lansia. Apabila rombongan membutuhkan kursi roda lipat tambahan, tersedia opsi tambahan sewa Rp62.500/unit selama perjalanan.",
   },
   {
     id: "faq_mou_dp",
@@ -278,7 +278,7 @@ export const FIXTURE_FAQS: PublicFaq[] = [
     id: "faq_kapasitas",
     question: "Berapa jumlah jamaah dalam satu rombongan keberangkatan?",
     answer:
-      "Kapasitas ideal untuk 1 bus pariwisata adalah 40 jamaah (rentang pemesanan 20–45 jamaah per bus). Jika komunitas Anda berjumlah lebih dari 45 jamaah, kami dapat menyiapkan lebih dari 1 unit armada bus.",
+      "Setiap keberangkatan dialokasikan untuk 1 armada bus pariwisata dengan kapasitas ideal 40 jamaah (rentang pemesanan minimal 20 dan maksimal 45 jamaah).",
   },
   {
     id: "faq_keamanan_bus",

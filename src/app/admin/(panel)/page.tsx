@@ -462,6 +462,15 @@ export default async function AdminBookingsPage({
                       <div className="text-xs text-muted">
                         Harga/jamaah: {formatRupiah(b.unitPrice)}
                       </div>
+                      {b.estimatedTotalPrice > b.unitPrice * b.participantCount && (
+                        <div className="text-xs text-muted">
+                          Kursi roda ({b.wheelchairCount}×): +
+                          {formatRupiah(
+                            b.estimatedTotalPrice -
+                              b.unitPrice * b.participantCount,
+                          )}
+                        </div>
+                      )}
                       <div className="text-sm font-extrabold text-ink">
                         Total Kontrak: {formatRupiah(b.estimatedTotalPrice)}
                       </div>

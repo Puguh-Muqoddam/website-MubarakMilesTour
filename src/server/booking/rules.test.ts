@@ -147,6 +147,11 @@ describe("validateDepartureSlot & checkRombonganQuota", () => {
       ok: false,
       error: "SLOT_QUOTA_EXCEEDED",
     });
+    expect(checkRombonganQuota(0, 1, 1)).toEqual({ ok: true });
+    expect(checkRombonganQuota(1, 1, 1)).toEqual({
+      ok: false,
+      error: "SLOT_QUOTA_EXCEEDED",
+    });
   });
 });
 
@@ -202,9 +207,13 @@ describe("validateParticipantsAndSpecialNeeds & perhitungan kontrak B2B", () => 
 
   it("menghitung harga kontrak 40 jamaah (Rp55.960.000) & DP 50% (Rp27.980.000) secara akurat sesuai PPBI §6.5", () => {
     expect(resolveUnitPrice(pkgReguler)).toBe(1_399_000);
-    const pricing = computeGroupContractPricing(pkgReguler, 40);
+    const pricing = computeGroupContractPricing(pkgReguler, 40, 0);
     expect(pricing).toEqual({
       unitPrice: 1_399_000,
+      baseTotalPrice: 55_960_000,
+      wheelchairCount: 0,
+      wheelchairUnitFee: 62_500,
+      wheelchairFee: 0,
       estimatedTotalPrice: 55_960_000,
       estimatedDpAmount: 27_980_000,
       estimatedRemainingAmount: 27_980_000,
@@ -212,18 +221,25 @@ describe("validateParticipantsAndSpecialNeeds & perhitungan kontrak B2B", () => 
     });
   });
 
-  it("menghitung rekomendasi jumlah bus untuk rombongan besar (misal 85 jamaah -> 3 bus)", () => {
-    const pricing = computeGroupContractPricing(pkgReguler, 85);
-    expect(pricing.recommendedBusCount).toBe(3);
-    expect(pricing.estimatedTotalPrice).toBe(1_399_000 * 85);
+  it("menambahkan biaya Rp62.500/unit kursi roda dan menghitung 45 jamaah tetap sebagai 1 bus", () => {
+    const pricing = computeGroupContractPricing(pkgReguler, 45, 1);
+    expect(pricing.recommendedBusCount).toBe(1);
+    expect(pricing.wheelchairFee).toBe(62_500);
+    expect(pricing.estimatedTotalPrice).toBe(1_399_000 * 45 + 62_500);
+    expect(pricing.estimatedDpAmount).toBe(31_509_000);
     expect(pricing.estimatedDpAmount + pricing.estimatedRemainingAmount).toBe(
       pricing.estimatedTotalPrice,
     );
+
+    const twoWheelchairs = computeGroupContractPricing(pkgReguler, 20, 2);
+    expect(twoWheelchairs.wheelchairFee).toBe(125_000);
+    expect(twoWheelchairs.estimatedTotalPrice).toBe(1_399_000 * 20 + 125_000);
   });
 
   it("membulatkan DP 50% ke ribuan terdekat dan menolak harga/jumlah tidak valid", () => {
     expect(computeDpAmount(1_001_000)).toBe(501_000);
     expect(() => computeTotal(1_399_000.5, 40)).toThrow();
     expect(() => computeTotal(1_399_000, 0)).toThrow();
+    expect(() => computeTotal(1_399_000, 40, -1)).toThrow();
   });
 });
